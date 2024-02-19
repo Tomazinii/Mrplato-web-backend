@@ -98,6 +98,7 @@ def start():
     r, msg = pv.input_an_argument(list_of_problems[pb_index])
     if not r:
         print(f"Proving argument: ", msg)
+        raise ValueError(msg)
 
 
     # start proving loop
