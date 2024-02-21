@@ -1,7 +1,5 @@
 
-
-
-from tools.src._shared.repository.repository_interface import RepositoryInterface
+from tools.src._shared.repository.problem_repository_interface import ProblemRepositoryInterface
 from tools.src._shared.usecase.usecase_interface import UsecaseInterface
 from tools.src.problems.domain.entity.problem import Problem
 from tools.src.problems.domain.factory.problem_factory import ProblemFactory
@@ -12,7 +10,7 @@ from tools.src.problems.usecase.register_list_problem_dto import InputRegisterLi
 
 class RegisterProblemUsecase(UsecaseInterface):
 
-    def __init__(self, repository_service: RepositoryInterface):
+    def __init__(self, repository_service: ProblemRepositoryInterface):
         self.repository = repository_service
 
     def execute(self, input: InputRegisterListProblemDto) -> OutputRegisterListProblemDto:

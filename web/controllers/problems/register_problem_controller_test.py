@@ -4,7 +4,7 @@ import datetime
 from io import StringIO
 from unittest.mock import Mock
 from tools.src._shared.controller.https.http_response import HttpResponse
-from tools.src._shared.repository.repository_interface import RepositoryInterface
+from tools.src._shared.repository.problem_repository_interface import ProblemRepositoryInterface
 from tools.src.problems.domain.value_object.file import File
 from tools.src.problems.usecase.register_list_problem_dto import InputRegisterListProblemDto
 from tools.src.problems.usecase.register_list_problem_usecase import RegisterProblemUsecase
@@ -16,7 +16,7 @@ class HttpRequestMock():
 
 
 def test_register_problem_test():
-    repository = Mock(spec=RepositoryInterface)
+    repository = Mock(spec=ProblemRepositoryInterface)
     usecase = RegisterProblemUsecase(repository_service=repository)
     register_controller = RegisterProblemController(usecase)
     request = HttpRequestMock()
@@ -27,7 +27,7 @@ def test_register_problem_test():
     file = File(file=file, name=file.name)
     created_at = datetime.datetime.now()
     data = InputRegisterListProblemDto(comentary="lista teste comentary",created_at=created_at, id="id", list_name="lista teste", list_problem=file,updated_at=created_at)
-    response = register_controller.execute(request, data)
+    response = register_controller.execute(request, data=data)
 
 
     assert isinstance(response, HttpResponse)

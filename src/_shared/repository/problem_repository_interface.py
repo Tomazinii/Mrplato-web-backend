@@ -1,10 +1,8 @@
 
-
-
 from abc import ABC, abstractmethod
 
 
-class RepositoryInterface(ABC):
+class ProblemRepositoryInterface(ABC):
 
     @abstractmethod
     def create(self, input) -> any:

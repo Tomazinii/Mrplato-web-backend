@@ -9,11 +9,11 @@ class RegisterProblemController(ControllerInterface):
     def __init__(self, usecase: RegisterProblemUsecase):
         self.register_usecase = usecase
 
-    def execute(self, requests, data: InputRegisterListProblemDto) -> HttpResponse:
+    def execute(self, requests, **kwargs) -> HttpResponse:
         #usecaseauthentication
         #usecaseauthorization
         
-        output:OutputRegisterListProblemDto = self.register_usecase.execute(data)
+        output:OutputRegisterListProblemDto = self.register_usecase.execute(kwargs["data"])
         file = output.list_problem
         output.list_problem = None
 
