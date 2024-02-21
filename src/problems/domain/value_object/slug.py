@@ -1,5 +1,7 @@
 import re
 
+from tools.src._shared.errors.bad_request import BadRequestError
+
 class Slug:
     __slug: str
 
@@ -10,7 +12,7 @@ class Slug:
         
     def validate(self, list_name):
         if not isinstance(list_name, str):
-            raise ValueError("list_name must be a string")
+            raise BadRequestError("list_name must be a string")
         
     def slugfy(self, text):
         text = re.sub(r'[^\w\s-]', '', text).strip().lower()

@@ -531,6 +531,7 @@ async def create_session(requests: Request, data: CreateSessionExerciseDtoInput,
 
 class InputTest(BaseModel):
     name: str
+    file: Any
 
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
@@ -540,12 +541,23 @@ from typing_extensions import Annotated
 def create_test(
     request: Request,
     name:str,
-    file: Annotated[UploadFile, File()]
+    file: Annotated[UploadFile, File()],
+    response: Response
     ):
+    
+    print("TESTE")
 
+    output  = InputTest(name="alecrin", file=file)
+    file = output.file
+    output.file = None
+
+    test = uuid4()
+    cookie.attach_to_response(response, test)
 
     return {
         "name": name,
+        "file":file,
+        "output": output
     }
 
 

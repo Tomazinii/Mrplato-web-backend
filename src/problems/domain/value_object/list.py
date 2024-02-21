@@ -1,4 +1,5 @@
 from typing import IO, List
+from tools.src._shared.errors.bad_request import BadRequestError
 
 from tools.src.problems.domain.value_object.file import File
 
@@ -15,13 +16,13 @@ class ListProblem:
         if not (list.get_name().endswith(tuple(
             allowed_extensions
         ))):
-            raise ValueError("Requires .txt or .arg file; other type not is supported.")
+            raise BadRequestError("Requires .txt or .arg file; other type not is supported.")
         lines_limit = 150
         array = list.get_file().readlines()
         array = [line.strip() for line in array]
 
         if len(array) > lines_limit:
-                raise ValueError(f"Only {lines_limit} problems per file are allowed")
+                raise BadRequestError(f"Only {lines_limit} problems per file are allowed")
         
         self.__list = array
 
