@@ -1,6 +1,7 @@
 import datetime
 from io import StringIO
 import uuid
+from tools.src.problems.domain.value_object.file import File
 
 from tools.src.problems.domain.value_object.slug import Slug
 
@@ -15,6 +16,8 @@ def test_create_problem_entity():
     file_content = "problem1\nproblem2\nproblem3"
     file = StringIO(file_content)
     file.name = "test.txt"
+    file = File(file=file, name=file.name)
+
     list_problem_input = ListProblem(list=file)
     slug = Slug(props.list_name)
     entity = Problem(props)

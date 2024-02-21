@@ -3,9 +3,8 @@ from pydantic import BaseModel
 from fastapi import APIRouter
 from .session_exercises_dto import CreateSessionExerciseDtoInput, CreateSessionExerciseDtoOutput
 from .apply_rule_dto import DataInputApplyRuleDto, DataOutputApplyRuleDto
-import tools
 import pickle
-from fastapi import Cookie, Request
+from fastapi import Cookie, Request, UploadFile
 from exercises import listas_exercises
 
 apply_rule_router = APIRouter()
@@ -527,3 +526,26 @@ async def create_session(requests: Request, data: CreateSessionExerciseDtoInput,
         }
 
         return output
+
+
+
+class InputTest(BaseModel):
+    name: str
+
+from fastapi import FastAPI, File, UploadFile
+from pydantic import BaseModel
+from typing_extensions import Annotated
+
+@apply_rule_router.post("/create_test")
+def create_test(
+    request: Request,
+    name:str,
+    file: Annotated[UploadFile, File()]
+    ):
+
+
+    return {
+        "name": name,
+    }
+
+

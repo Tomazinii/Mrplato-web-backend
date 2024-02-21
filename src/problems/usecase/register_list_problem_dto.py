@@ -8,9 +8,9 @@ class InputRegisterListProblemDto(BaseModel):
     id: str
     list_name: str
     list_problem: Any
-    created_at: datetime.datetime
+    created_at: datetime.datetime 
     updated_at: datetime.datetime
-    comentary: str
+    comentary: str = ""
 
 class OutputRegisterListProblemDto(BaseModel):
     id: str

@@ -4,6 +4,7 @@ from io import StringIO
 from typing import IO
 from unittest.mock import Mock
 from uuid import UUID
+from tools.src.problems.domain.value_object.file import File
 
 from tools.src.problems.usecase.register_list_problem_dto import InputRegisterListProblemDto, OutputRegisterListProblemDto
 from tools.src.problems.usecase.register_list_problem_usecase import RegisterProblemUsecase
@@ -19,6 +20,8 @@ def test_register_problem_usecase():
     file_content = "problem1\nproblem2\nproblem3"
     file = StringIO(file_content)
     file.name = "test.txt"
+    file = File(file=file, name=file.name)
+
     created_at = datetime.datetime.now()
 
     input = InputRegisterListProblemDto(comentary="lista teste comentary",created_at=created_at, id="id", list_name="lista teste", list_problem=file,updated_at=created_at)

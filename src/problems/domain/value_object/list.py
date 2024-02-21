@@ -1,21 +1,23 @@
 from typing import IO, List
 
+from tools.src.problems.domain.value_object.file import File
+
 
 class ListProblem:
     __list: List[str]
 
-    def __init__(self, list: IO):
+    def __init__(self, list: File):
         self.validate(list)
 
 
-    def validate(self, list):
+    def validate(self, list: File):
         allowed_extensions = {".txt", ".arg"}
-        if not (hasattr(list, "name") and list.name.endswith(tuple(
+        if not (list.get_name().endswith(tuple(
             allowed_extensions
         ))):
             raise ValueError("Requires .txt or .arg file; other type not is supported.")
         lines_limit = 150
-        array = list.readlines()
+        array = list.get_file().readlines()
         array = [line.strip() for line in array]
 
         if len(array) > lines_limit:
