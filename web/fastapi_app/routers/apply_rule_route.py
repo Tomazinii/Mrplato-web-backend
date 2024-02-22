@@ -545,7 +545,7 @@ def create_test(
     response: Response
     ):
     
-    print("TESTE")
+    print("TESTE",file.file)
 
     output  = InputTest(name="alecrin", file=file)
     file = output.file

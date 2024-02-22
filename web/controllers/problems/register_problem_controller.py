@@ -1,7 +1,7 @@
-from tools.src._shared.controller.controller_interface import ControllerInterface
-from tools.src._shared.controller.https.http_response import HttpResponse
-from tools.src.problems.usecase.register_list_problem_dto import InputRegisterListProblemDto, OutputRegisterListProblemDto
-from tools.src.problems.usecase.register_list_problem_usecase import RegisterProblemUsecase
+from src._shared.controller.controller_interface import ControllerInterface
+from src._shared.controller.https.http_response import HttpResponse
+from src.problems.usecase.register_list_problem_dto import InputRegisterListProblemDto, OutputRegisterListProblemDto
+from src.problems.usecase.register_list_problem_usecase import RegisterProblemUsecase
 
 
 class RegisterProblemController(ControllerInterface):

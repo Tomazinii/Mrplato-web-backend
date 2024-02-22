@@ -1,6 +1,6 @@
 import re
 
-from tools.src._shared.errors.bad_request import BadRequestError
+from src._shared.errors.bad_request import BadRequestError
 
 class Slug:
     __slug: str

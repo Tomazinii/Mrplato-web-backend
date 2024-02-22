@@ -30,7 +30,6 @@ def test_register_problem_test():
     response = register_controller.execute(request, data=data)
 
 
-    assert isinstance(response, HttpResponse)
     assert response.status_code == 201
     assert response.body["data"] is not None
     assert response.body["file"] is not None

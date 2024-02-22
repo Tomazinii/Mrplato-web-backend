@@ -1,7 +1,7 @@
 import select
 from typing import Any, Dict, List
 from pydantic import BaseModel
-from fastapi import APIRouter
+from fastapi_app import APIRouter
 from .add_rem_red_hypothesis_dto import DataInputAddHypothesisOnlyAddDto, DataInputAddHypothesisRuleDto, DataInputRedAbsDto, DataInputRemoveHypothesisDto, DataOutputAddHypothesisOnlyAddDto, DataOutputAddHypothesisRuleDto, DataOutputRedAbsDto, DataOutputRemoveHypothesisDto
 
 add_rem_red_router = APIRouter()

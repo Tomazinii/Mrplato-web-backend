@@ -1,7 +1,7 @@
 import datetime
-from tools.src.problems.domain.value_object import ListProblem
-from tools.src._shared.entity import Base
-from tools.src.problems.domain.value_object.slug import Slug
+from src.problems.domain.value_object import ListProblem
+from src._shared.entity import Base
+from src.problems.domain.value_object.slug import Slug
 
 
 class PropsProblemType:

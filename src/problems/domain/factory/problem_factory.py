@@ -1,8 +1,8 @@
 
 
-from tools.src.problems.domain.entity.problem import Problem, PropsProblemType
-from tools.src.problems.domain.value_object.list import ListProblem
-from tools.src.problems.domain.value_object.slug import Slug
+from src.problems.domain.entity.problem import Problem, PropsProblemType
+from src.problems.domain.value_object.list import ListProblem
+from src.problems.domain.value_object.slug import Slug
 
 
 class ProblemFactory:

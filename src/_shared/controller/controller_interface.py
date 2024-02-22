@@ -1,8 +1,8 @@
 
 from abc import ABC, abstractmethod
 
-from tools.src._shared.controller.https.http_request import HttpRequest
-from tools.src._shared.controller.https.http_response import HttpResponse
+from src._shared.controller.https.http_request import HttpRequest
+from src._shared.controller.https.http_response import HttpResponse
 
 
 class ControllerInterface(ABC):

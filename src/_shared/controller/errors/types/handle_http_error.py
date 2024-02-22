@@ -1,39 +1,39 @@
 
-from tools.src._shared.controller.https.http_response import HttpResponse
-from tools.src._shared.errors.bad_request import BadRequestError
-from tools.src._shared.errors.forbidden import ForbiddenError
-from tools.src._shared.errors.not_found import NotFoundError
-from tools.src._shared.errors.unauthorized import UnauthorizedError
+from src._shared.controller.https.http_response import HttpResponse
+from src._shared.errors.bad_request import BadRequestError
+from src._shared.errors.forbidden import ForbiddenError
+from src._shared.errors.not_found import NotFoundError
+from src._shared.errors.unauthorized import UnauthorizedError
 
 
 def handle_errors(error: Exception) -> HttpResponse:
 
-    if(isinstance(BadRequestError)):
+    if(isinstance(error, BadRequestError)):
         return HttpResponse(
             status_code=400,
-            body=error.message
+            body=error
         )
     
-    if(isinstance(NotFoundError)):
+    if(isinstance(error, NotFoundError)):
         return HttpResponse(
             status_code=404,
-            body=error.message
+            body=error
     )
 
-    if(isinstance(UnauthorizedError)):
+    if(isinstance(error, UnauthorizedError)):
         return HttpResponse(
             status_code=401,
-            body=error.message
+            body=error
     )
 
-    if(isinstance(ForbiddenError)):
+    if(isinstance(error, ForbiddenError)):
         return HttpResponse(
             status_code=403,
-            body=error.message
+            body=error
         )
 
 
     return HttpResponse(
         status_code=500,
-        body=error.message,
+        body=error
     )

@@ -1,7 +1,7 @@
 from typing import IO, List
-from tools.src._shared.errors.bad_request import BadRequestError
+from src._shared.errors.bad_request import BadRequestError
 
-from tools.src.problems.domain.value_object.file import File
+from src.problems.domain.value_object.file import File
 
 
 class ListProblem:
