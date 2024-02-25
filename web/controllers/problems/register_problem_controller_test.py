@@ -15,6 +15,11 @@ class HttpRequestMock():
         self.query_params = { "first_name": "meuTeste" }
 
 
+
+class FileProblem:
+    filename: str
+    file: any
+
 def test_register_problem_test():
     repository = Mock(spec=ProblemRepositoryInterface)
     usecase = RegisterProblemUsecase(repository_service=repository)
@@ -23,8 +28,12 @@ def test_register_problem_test():
 
     file_content = "problem1\nproblem2\nproblem3"
     file = StringIO(file_content)
-    file.name = "test.txt"
-    file = File(file=file, name=file.name)
+   
+    FileProblem.filename = "test.txt"
+    FileProblem.file = file
+
+
+    file = FileProblem
     created_at = datetime.datetime.now()
     data = InputRegisterListProblemDto(comentary="lista teste comentary",created_at=created_at, id="id", list_name="lista teste", list_problem=file,updated_at=created_at)
     response = register_controller.execute(request, data=data)

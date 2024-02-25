@@ -15,12 +15,21 @@ class RepositoryMock:
     def create(self, input):
         pass
     
+
+class FileProblem:
+    filename: str
+    file: any
+
 def test_register_problem_usecase():
     repository = Mock(spec=RepositoryMock)
     file_content = "problem1\nproblem2\nproblem3"
     file = StringIO(file_content)
-    file.name = "test.txt"
-    file = File(file=file, name=file.name)
+
+    FileProblem.filename = "test.txt"
+    FileProblem.file = file
+
+
+    file = FileProblem
 
     created_at = datetime.datetime.now()
 

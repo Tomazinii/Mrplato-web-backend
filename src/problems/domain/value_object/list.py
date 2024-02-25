@@ -18,8 +18,7 @@ class ListProblem:
         ))):
             raise BadRequestError("Requires .txt or .arg file; other type not is supported.")
         lines_limit = 150
-        array = list.get_file().readlines()
-        array = [line.strip() for line in array]
+        array = [line.decode("utf-8").strip() for line in list.get_file().readlines()]
 
         if len(array) > lines_limit:
                 raise BadRequestError(f"Only {lines_limit} problems per file are allowed")

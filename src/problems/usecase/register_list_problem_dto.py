@@ -6,11 +6,11 @@ from pydantic import BaseModel
 
 
 class InputRegisterListProblemDto(BaseModel):
-    id: str = str(uuid4())
+    id: str 
     list_name: str
     list_problem: Any
-    created_at: datetime.datetime = datetime.datetime.now()
-    updated_at: datetime.datetime = datetime.datetime.now()
+    created_at: datetime.datetime 
+    updated_at: datetime.datetime
     comentary: str = ""
 
 class OutputRegisterListProblemDto(BaseModel):

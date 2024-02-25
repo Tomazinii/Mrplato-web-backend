@@ -1,5 +1,7 @@
 
+import datetime
 from typing_extensions import Annotated
+from uuid import uuid4
 from pydantic import BaseModel
 from fastapi import APIRouter,Request,HTTPException
 from fastapi import File, UploadFile
@@ -18,6 +20,9 @@ def register_problem(request: Request,list_name:str, file: Annotated[UploadFile,
     
     try:
         input = InputRegisterListProblemDto(
+            id=str(uuid4()),
+            created_at = datetime.datetime.now(), 
+            updated_at = datetime.datetime.now(), 
             comentary=comentary,
             list_name=list_name,
             list_problem=file
@@ -28,5 +33,4 @@ def register_problem(request: Request,list_name:str, file: Annotated[UploadFile,
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
-
 
