@@ -8,5 +8,5 @@ from src._shared.controller.https.http_response import HttpResponse
 class ControllerInterface(ABC):
 
     @abstractmethod
-    def execute(self, request: HttpRequest) -> HttpResponse:
+    def execute(self, request: HttpRequest, **kwargs) -> HttpResponse:
         pass
