@@ -11,7 +11,7 @@ import copy
 from itertools import permutations
 
 
-import forms as fms
+from web.sdk.mrplato import forms as fms
 
 # -----------------------------------------------------------------------------
 

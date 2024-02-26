@@ -2,7 +2,6 @@
 import datetime
 from typing_extensions import Annotated
 from uuid import uuid4
-from pydantic import BaseModel
 from fastapi import APIRouter,Request,HTTPException
 from fastapi import File, UploadFile
 from src._shared.controller.errors.types.handle_http_error import handle_errors
@@ -35,8 +34,6 @@ def register_problem(request: Request,list_name:str, file: Annotated[UploadFile,
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
-
-
 
 
 @problem_router.get("/get_problem{problem_id}", status_code=200)

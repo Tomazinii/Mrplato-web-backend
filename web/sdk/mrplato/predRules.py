@@ -10,8 +10,8 @@ import copy
 
 # from prettytable import PrettyTable
 
-import forms as fms
-import equivRules as eqv
+from web.sdk.mrplato import forms as fms
+from web.sdk.mrplato import equivRules as eqv
 
 #-----------------------------------------------------------------------------        
 class PredRule():

@@ -8,11 +8,11 @@ import copy
 import os
 from itertools import chain, combinations
 
-import forms as fms
-import infRules as inf
-import equivRules as equiv
-import predRules as pred
-import deducInfer as ddi
+from web.sdk.mrplato import forms as fms
+from web.sdk.mrplato import infRules as inf
+from web.sdk.mrplato import equivRules as equiv
+from web.sdk.mrplato import predRules as pred
+from web.sdk.mrplato import deducInfer as ddi
 
 
 # -----------------------------------------------------------------------------
