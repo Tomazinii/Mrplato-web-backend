@@ -21,6 +21,10 @@ class ListProblem:
         lines_limit = 150
         array = [line.strip() for line in list.get_file().readlines()]
 
+        print("QWEQWEQWEWQEWQEWQEWQEWEQ", array)
+        print("QWEQWEQWEWQEWQEWQEWQEWEQ", array)
+        print("QWEQWEQWEWQEWQEWQEWQEWEQ", array)
+
 
         if len(array) > lines_limit:
                 raise BadRequestError(f"Only {lines_limit} problems per file are allowed")

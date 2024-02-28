@@ -14,7 +14,9 @@ class GetListProblemUsecase(UsecaseInterface):
 
     
     def execute(self, id) -> OutputGetListProblemDto:
+
         element: Problem = self.repository.get_by_id(id)
+
 
         output = OutputGetListProblemDto(
             comentary=element.get_comentary(),
@@ -25,4 +27,6 @@ class GetListProblemUsecase(UsecaseInterface):
             list_problem=element.get_list_problem(),
             slug=element.get_slug().get_slug()
         )
+
+
         return output

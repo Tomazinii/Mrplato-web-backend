@@ -8,7 +8,7 @@ Created on Tue Apr 20 12:31:21 2021
 
 #from prettytable import PrettyTable
 
-from web.sdk.mrplato import forms as fms
+from web.sdk.mrplato.resources import forms as fms
 
 #-----------------------------------------------------------------------------        
 class InferRule(): 

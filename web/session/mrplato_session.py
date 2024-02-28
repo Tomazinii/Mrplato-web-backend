@@ -9,7 +9,7 @@ from fastapi_sessions.session_verifier import SessionVerifier
 from fastapi_sessions.frontends.implementations import SessionCookie, CookieParameters
 from src._shared.session.mrplato_session_dto import MrplatoSessionDto
 from src._shared.session.mrplato_session_interface import MrplatoSessionInterface
-from web.sdk.mrplato import tools_file as tools
+from web.sdk.mrplato.resources import tools_file as tools
 
 
 
@@ -111,7 +111,7 @@ class MrplatoSession(MrplatoSessionInterface):
             return await self.create(response)
         
         if session_data.time_session < datetime.datetime.now():
-            self.delete(session_key)
+            await self.delete(session_key)
             return await self.create(response)
         
         return session_data

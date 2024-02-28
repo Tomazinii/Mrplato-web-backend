@@ -1,6 +1,5 @@
-from typing import List
 from web.sdk.mrplato.prover_dto import InputProverDto, OutputProverDto
-from web.sdk.mrplato import tools_file as tools
+from web.sdk.mrplato.resources import tools_file as tools
 
 
 
@@ -56,7 +55,6 @@ def prover(prover_instance, data: InputProverDto, problem: str) -> OutputProverD
                     continue_proving_predicates_1(labels[1], options[1], pv, rule_type,
                                                     sel_rule,selected_proof_line_indexes,
                                                     selected_term)
-                                                           
     lines = []
     for element in proof_line_updated:
         if("ADHY" in element[1]):
@@ -65,8 +63,6 @@ def prover(prover_instance, data: InputProverDto, problem: str) -> OutputProverD
         else:
             formate = {"content": f"{element[0]}", "methods_used_info":f"{element[1]}", "type":"default",}
             lines.append(formate)
-        
-
 
     if r:
 
@@ -95,11 +91,6 @@ def prover(prover_instance, data: InputProverDto, problem: str) -> OutputProverD
         lines = lines,
         prover_instance=pv
     )
-        
-
-
-
-
     return output
 
 

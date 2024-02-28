@@ -8,8 +8,8 @@ Created on Wed Apr 21 07:30:19 2021
 import copy
 
 # import infRules as inf
-from web.sdk.mrplato import equivRules as eqv
-from web.sdk.mrplato import forms as fms
+from web.sdk.mrplato.resources import equivRules as eqv
+from web.sdk.mrplato.resources import forms as fms
 
 
 # #-----------------------------------------------------------------------------

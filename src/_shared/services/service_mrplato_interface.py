@@ -12,5 +12,5 @@ class ServiceMrplatoInterface(ABC):
     
 
     @abstractmethod
-    def get_option(self, input) -> any:
+    def get_option(self,prover_instance, data, problem) -> any:
         raise NotImplementedError
