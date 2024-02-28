@@ -6,52 +6,53 @@ Created on Thu Apr 29 08:30:41 2021
 @author: cedric
 """
 
-import tools
+from web.sdk.mrplato import tools_file as tools
 import forms as fms
 
 
-# list_of_problems =\
-#     [# Proving inferences
-# '0 - p  → q , p ⊢ (q v p)',
-# '1 - p → q , ~q ⊢ ~p',
-# '2 - p → q , q → s ⊢ p → s',
-# # Proving hypothesis
-# '3 - ~~p → q ⊢ p -> q',
-# '4 - p → ~~q ⊢ p -> q',
-# '5 - p → ~(p ^ r)  ⊢ p →  (~p v ~r)',
-# '6 - ~~p ⊢ p',
-# '7 - ~p ⊢ ~~~p',
-# #
-# # Proving equivalences
-# '8 - ~~p → q ⊢ p -> q',
-# '9 - p → ~~q ⊢ p -> q',
-# '10 - p → ~(p ^ r)  ⊢ p →  (~p v ~r)',
-# '11 - ~~p ⊢ p',
-# '12 - ~p ⊢ ~~~p',
-# #
-# # Proving predicates
-# '13 - ∼p(a) ⊢ ∼∀xp(x)',
-# '14 - ∃x∀y(p(x,y) v q(x,y)) ⊢ p(a,a) v q(a,a)',
-# '15 - ∀x(p(x) → q(x)) , ∀x(q(x) → r(x)) ⊢ ∀x(p(x) → r(x))',
-# '16 -  ∀x(p(x) ∧ q(x)) ⊢ ∀xp(x) ∧ ∀xq(x)',
-# '17 - ~∀xp(x)  ⊢  ∃x~p(x)',
-# '18 - ~∃xp(x)  ⊢  ∀x~p(x)',
-# '19 - ∀xp(x)  ⊢ ∀xp(x)',
+list_of_problems =\
+    [# Proving inferences
+# '0 - p  → q , p ⊢ q',
+'0 - p  → q , p ⊢ (q v p)',
+'1 - p → q , ~q ⊢ ~p',
+'2 - p → q , q → s ⊢ p → s',
+# Proving hypothesis
+'3 - ~~p → q ⊢ p -> q',
+'4 - p → ~~q ⊢ p -> q',
+'5 - p → ~(p ^ r)  ⊢ p →  (~p v ~r)',
+'6 - ~~p ⊢ p',
+'7 - ~p ⊢ ~~~p',
+#
+# Proving equivalences
+'8 - ~~p → q ⊢ p -> q',
+'9 - p → ~~q ⊢ p -> q',
+'10 - p → ~(p ^ r)  ⊢ p →  (~p v ~r)',
+'11 - ~~p ⊢ p',
+'12 - ~p ⊢ ~~~p',
+#
+# Proving predicates
+'13 - ∼p(a) ⊢ ∼∀xp(x)',
+'14 - ∃x∀y(p(x,y) v q(x,y)) ⊢ p(a,a) v q(a,a)',
+'15 - ∀x(p(x) → q(x)) , ∀x(q(x) → r(x)) ⊢ ∀x(p(x) → r(x))',
+'16 -  ∀x(p(x) ∧ q(x)) ⊢ ∀xp(x) ∧ ∀xq(x)',
+'17 - ~∀xp(x)  ⊢  ∃x~p(x)',
+'18 - ~∃xp(x)  ⊢  ∀x~p(x)',
+'19 - ∀xp(x)  ⊢ ∀xp(x)',
 
-# # Proving equivalences
-# '20 - ~~p ⊢ CNF ',
-# '21 - p ⊢ DNF ',
-# '22 - p ⊢ CNF ',
-# '23 - ~p ⊢ CNF '
-# #
-# ]
+# Proving equivalences
+'20 - ~~p ⊢ CNF ',
+'21 - p ⊢ DNF ',
+'22 - p ⊢ CNF ',
+'23 - ~p ⊢ CNF '
+#
+]
 
 
-f = open("lista_test.txt", "r")
-list_of_problems = f.readlines()
-list_of_problems = [z for z in list_of_problems]
+# f = open("lista_test.txt", "r")
+# list_of_problems = f.readlines()
+# list_of_problems = [z for z in list_of_problems]
 
-print(list_of_problems)
+# print(list_of_problems)
 
 
 

@@ -17,6 +17,7 @@ class ProblemRepository(ProblemRepositoryInterface):
         with DBConnectionHandler() as db:
             try:
                 list_problem = input.get_list_problem().get_list()
+                
                 problem = ProblemModel(id=input.get_id(),list_name=input.get_list_name(), comentary=input.get_comentary(), list_problem=list_problem, created_at=input.get_created_at(), updated_at=input.get_updated_at(),slug=input.get_slug().get_slug() )
                 db.session.add(problem)
                 db.session.commit()
@@ -39,10 +40,10 @@ class ProblemRepository(ProblemRepositoryInterface):
                     list_name=element.list_name,
                     updated_at=element.updated_at,
                 )
-
+                decoded_data = [bytes.fromhex(item[2:]).decode('utf-8') for item in element.list_problem]
                 problem = Problem(props=props)
                 problem.set_slug(Slug(element.list_name))
-                problem.set_list_problem(element.list_problem)
+                problem.set_list_problem(decoded_data)
                 return problem
 
         except Exception as error:

@@ -15,10 +15,7 @@ class RegisterProblemUsecase(UsecaseInterface):
         self.repository = repository_service
 
     def execute(self, input: InputRegisterListProblemDto) -> OutputRegisterListProblemDto:
-
         file = File(name=input.list_problem.filename, file=input.list_problem.file)
-
-
 
         problem = ProblemFactory.create(
             id=input.id,

@@ -142,8 +142,6 @@ async def get_options_selected_form(requests: Request, data: DataInputGetOptions
     
     list_options = options_in_rows(options)
 
-
-
     output = SelectedFormOutputDto(
             type_output = "CREATED",
             message = msg,

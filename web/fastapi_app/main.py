@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers.apply_rule_route import apply_rule_router
 # from routers. import selected_form_router, add_rem_red_router
 from exercise_route import exercise_api_route
-from web.fastapi_app.routers import problem_router
+from web.fastapi_app.routers import mrplato_router, problem_router
 # from routers.problem_router import problem_router
 
 
@@ -32,6 +32,7 @@ app.include_router(apply_rule_router, prefix="/api/v1/mrplato/operations")
 # app.include_router(add_rem_red_router, prefix="/api/v1/mrplato/operations")
 app.include_router(exercise_api_route, prefix="/api/v1/exercises")
 app.include_router(problem_router, prefix="/api/v1/problems")
+app.include_router(mrplato_router, prefix="/api/v1/mrplato")
 
 
 

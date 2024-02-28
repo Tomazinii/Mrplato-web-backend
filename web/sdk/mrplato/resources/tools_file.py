@@ -8,11 +8,11 @@ import copy
 import os
 from itertools import chain, combinations
 
-import forms as fms
-import infRules as inf
-import equivRules as equiv
-import predRules as pred
-import deducInfer as ddi
+from web.sdk.mrplato.resources import forms as fms
+from web.sdk.mrplato.resources import infRules as inf
+from web.sdk.mrplato.resources import equivRules as equiv
+from web.sdk.mrplato.resources import predRules as pred
+from web.sdk.mrplato.resources import deducInfer as ddi
 
 
 # -----------------------------------------------------------------------------
@@ -619,7 +619,6 @@ class Prover():
         # print(f'line: {line} - type: {type(line)}')
         ind_form_list = fms.index_form(0, line)
         options = tools.get_options(ind_form_list)
-        print(f'options::::: {options}')
 
         if (sub_formula is None):
                 # and (total_ou_partial == "partial"):
