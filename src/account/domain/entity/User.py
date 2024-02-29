@@ -9,8 +9,9 @@ class User(Base):
     __is_admin: bool = False
     __password: Password
     __is_super_user: bool = False
+    __is_authenticated: bool = False
 
-    def __init__(self, id, created_at, updated_at, username, email, password):
+    def __init__(self, id, created_at, updated_at, username):
         super().__init__(id, created_at, updated_at)
         self.__username = username
 
@@ -44,4 +45,13 @@ class User(Base):
     
     def get_password(self):
         return self.__password.get_password()
+    
+    def get_is_authenticated(self):
+        return self.__is_authenticated
+    
+    def authenticate_user(self):
+        self.__is_authenticated = True
+
+    def deauthenticate_user(self):
+        self.__is_authenticated = False
     
