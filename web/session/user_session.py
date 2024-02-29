@@ -7,25 +7,24 @@ from uuid import UUID, uuid4
 from fastapi_sessions.backends.implementations import InMemoryBackend
 from fastapi_sessions.session_verifier import SessionVerifier
 from fastapi_sessions.frontends.implementations import SessionCookie, CookieParameters
-from src._shared.session.mrplato_session_dto import MrplatoSessionDto
-from src._shared.session.mrplato_session_interface import MrplatoSessionInterface
-from web.sdk.mrplato.resources import tools_file as tools
+from src._shared.session.user_session_dto import UserSessionDto
+from src._shared.session.user_session_interface import UserSessionInterface
 
 
 
 cookie_params = CookieParameters()
 
 cookie = SessionCookie(
-    cookie_name="mrplato_cookie",
+    cookie_name="user_cookie",
     identifier="general_verifier",
     auto_error=True,
     secret_key="DONOTUSE",
     cookie_params=cookie_params,
 )
-backend = InMemoryBackend[UUID, MrplatoSessionDto]()
+backend = InMemoryBackend[UUID, UserSessionDto]()
 
 
-class BasicVerifier(SessionVerifier[str, MrplatoSessionDto]):
+class BasicVerifier(SessionVerifier[str, UserSessionDto]):
     def __init__(
         self,
         *,
@@ -66,54 +65,49 @@ verifier = BasicVerifier(
     auth_http_exception=HTTPException(status_code=403, detail="invalid session"),
 )
 
-class MrplatoSession(MrplatoSessionInterface):
+class UserSession(UserSessionInterface):
 
-    async def create(self, response) -> MrplatoSessionDto:
+    async def create(self, jwt, jwt_secret, response):
         session_key = uuid4()
-        prover_instance = tools.Prover()
-        serialized_instance = pickle.dumps(prover_instance)
 
-        dataSession = MrplatoSessionDto(
+        data = UserSessionDto(
             id=session_key,
-            prover=serialized_instance,
-            time_session = datetime.datetime.now() + datetime.timedelta(weeks=1)
+            time_session = datetime.datetime.now() + datetime.timedelta(weeks=5),
+            token=jwt,
+            token_key=jwt_secret
         )
 
-        await backend.create(session_key, dataSession)
-        
+        await backend.create(data)
         cookie.attach_to_response(response, session_key)
-
-        return dataSession
 
     async def get(self, session_key):
         session_data = await backend.read(session_key)
         return session_data
-        
     
     async def delete(self, session_key):
         await backend.delete(session_key)
 
-    
-    async def update(self, session_key, data_session):
-        await backend.update(session_key, data_session)
-
-    
-    
-    async def verify(self, session_key, response):
+        
+    async def verify(self, session_key):
 
         if session_key is None:
-            return await self.create(response)
+            return None
         
         session_data = await backend.read(session_key)
 
         if session_data is None:
-            return await self.create(response)
+            return None
         
         if session_data.time_session < datetime.datetime.now():
-            await self.delete(session_key)
-            return await self.create(response)
+            try:
+                await self.delete(session_key)
+                return None
+            except:
+                return None
         
         return session_data
+        
+
         
             
 

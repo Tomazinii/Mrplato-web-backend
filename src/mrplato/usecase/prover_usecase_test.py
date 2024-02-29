@@ -1,20 +1,6 @@
-# import pytest
-# import asyncio
-# import datetime
-# import pickle
-# from unittest.mock import Mock
-# from uuid import uuid4
-# from src._shared.session.mrplato_session_dto import MrplatoSessionDto
-# from src.mrplato.usecase.prover_usecase import ProverUsecase
-# from src.mrplato.usecase.prover_usecase_dto import InputProverUsecaseDto, OutpuProverUsecaseDto
-# from src.problems.usecase.get_list_problem_dto import OutputGetListProblemDto
-# from web.sdk.mrplato.prover_dto import OutputProverDto
-
 
 class Prover:
     variable = "variable"
-
-
 
 
 
