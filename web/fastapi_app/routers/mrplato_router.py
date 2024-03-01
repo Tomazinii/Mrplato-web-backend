@@ -52,7 +52,7 @@ async def prover(requests: Request, input: InputProverRoute, response: Response)
         )
 
         response = await http_adapter(request=requests, controller=mrplato_composer(), response=response, input=input)
-        
+                
         return response
     
     except Exception as error:
