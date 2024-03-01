@@ -69,7 +69,6 @@ class UserSession(UserSessionInterface):
 
     async def create(self, jwt, jwt_secret, response):
         session_key = uuid4()
-
         data = UserSessionDto(
             id=session_key,
             time_session = datetime.datetime.now() + datetime.timedelta(weeks=5),
@@ -77,7 +76,7 @@ class UserSession(UserSessionInterface):
             token_key=jwt_secret
         )
 
-        await backend.create(data)
+        await backend.create(session_key, data)
         cookie.attach_to_response(response, session_key)
 
     async def get(self, session_key):

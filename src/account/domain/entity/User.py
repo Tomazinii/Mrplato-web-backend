@@ -26,11 +26,10 @@ class User(Base):
         self.__username = username
 
     def set_password(self, password: Password):
-        print("AQUIIIIII", password)
-        self.__password = password.get_password()
+            self.__password = password.get_password()
 
     def set_email(self, email: Email):
-        self.__email = email.get_email()
+            self.__email = email.get_email()
 
     def change_password(self, new_password: Password):
         new_password.change_password(new_password=new_password)
@@ -39,12 +38,12 @@ class User(Base):
     def change_type_user(self, user_type: str):
         self.__user_type = user_type
 
-    def set_is_admin(self):
-        self.__is_admin = True
+    def set_is_admin(self, status: bool):
+        self.__is_admin = status
         
 
-    def set_super_user(self):
-        self.__is_super_user = True
+    def set_super_user(self, status: bool):
+        self.__is_super_user = status
 
     def verify_is_admin(self) -> bool:
         return self.__is_admin == True
@@ -68,12 +67,20 @@ class User(Base):
     def get_is_authenticated(self):
         return self.__is_authenticated
     
+    def get_is_super_user(self):
+        return self.__is_super_user
+    
+    def get_is_admin(self):
+        return self.__is_admin
+    
     def get_user_type(self):
         return self.__user_type
     
-    def authenticate_user(self):
-        self.__is_authenticated = True
+    def authenticate_user(self, status: bool):
+        self.__is_authenticated = status
 
     def deauthenticate_user(self):
         self.__is_authenticated = False
     
+    def set_password_db(self, password: str):
+        self.__password = password

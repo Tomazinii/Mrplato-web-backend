@@ -2,10 +2,8 @@
 
 from uuid import uuid4
 from src._shared.services.jwt_service_interface import JwtServiceInterface
-from src._shared.session.user_session_dto import UserSessionDto
 from src._shared.session.user_session_interface import UserSessionInterface
 from src._shared.usecase.usecase_interface import UsecaseInterface
-from src._shared.value_object.email import Email
 from src.account.domain.entity.user import User
 from src.account.domain.repository.user_repository_interface import UserRepositoryInterface
 from src.account.domain.value_object.password import Password
@@ -22,11 +20,12 @@ class LoginUsecase(UsecaseInterface):
 
     async def execute(self, input: InputLoginUsecase, response):
         user: User = self.repository.get_by_email(email=input.email)
+
         password_login = Password(password=input.password)
         user.verify_password_login(password_login=password_login)
-        user.authenticate_user()
+        user.authenticate_user(status=True)
 
-        jwt = self.service.encode(
+        jwt, jwt_secret = self.service.encode(
             data={
             "user_id": f"{user.get_id()}",
             "email": f"{user.get_email()}",
@@ -36,8 +35,11 @@ class LoginUsecase(UsecaseInterface):
         }
         )
 
-        jwt_secret = uuid4()
+
+        
         await self.session.create(jwt=jwt, jwt_secret=jwt_secret, response=response)
+
+
 
 
 

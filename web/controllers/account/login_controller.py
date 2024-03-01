@@ -14,12 +14,15 @@ class LoginController(ControllerInterface):
     def __init__(self, usecase: LoginUsecase):
         self.usecase = usecase
 
-    def execute(self, request: HttpRequest, **kwargs) -> HttpResponse:
-        usecase = self.usecase.execute(kwargs["data"])
+    async def execute(self, request: HttpRequest, **kwargs) -> HttpResponse:
+        response = kwargs["response"]
+        data = kwargs["data"]
+
+        usecase = await self.usecase.execute(input=data, response=response)
         
-        response = HttpResponse(
+        output = HttpResponse(
             status_code=200,
             body={"data":usecase}
         )
 
-        return response
+        return output
