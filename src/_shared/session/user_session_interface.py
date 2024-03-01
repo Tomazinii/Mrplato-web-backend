@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class UserSessionInterface(ABC):
 
     @abstractmethod
-    def create(self, jwt, jwt_secret, response):
+    def create(self, jwt, jwt_secret, response, user_id):
         raise NotImplementedError
     
     @abstractmethod

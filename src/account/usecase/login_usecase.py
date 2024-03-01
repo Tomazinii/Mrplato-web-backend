@@ -32,12 +32,12 @@ class LoginUsecase(UsecaseInterface):
             "user_id": f"{user.get_id()}",
             "email": f"{user.get_email()}",
             "username": f"{user.get_username()}",
-            "is_authenticated": f"{user.get_is_authenticated()}"
-
         }
         )
         
-        await self.session.create(jwt=jwt, jwt_secret=jwt_secret, response=response)
+        await self.session.create(jwt=jwt, jwt_secret=jwt_secret, response=response, user_id=user.get_id())
+
+
 
 
 

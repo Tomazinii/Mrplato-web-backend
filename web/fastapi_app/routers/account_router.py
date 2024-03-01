@@ -2,8 +2,10 @@ from uuid import uuid4
 from pydantic import BaseModel
 from fastapi import APIRouter,Request,HTTPException,Response
 from src._shared.controller.errors.types.handle_http_error import handle_errors
+from src.account.usecase.change_password_usecase_dto import InputChangePasswordDto
 from src.account.usecase.login_usecase_dto import InputLoginUsecase
 from web.adapters.http_adapter import http_adapter
+from web.composers.account.change_password_composer import change_password_composer
 from web.composers.account.check_composer import check_authentication_composer
 from web.composers.account.login_composer import login_composer
 from web.composers.account.logout_composer import logout_composer
@@ -13,6 +15,10 @@ account_router = APIRouter()
 
 class InputLoginRoute(BaseModel):
     email: str
+    password: str
+
+
+class InputChangePasswordRouteDto(BaseModel):
     password: str
 
 
@@ -35,7 +41,6 @@ async def logout(requests: Request):
 async def login(requests: Request, input: InputLoginRoute, response: Response):
 
     try:
-
         input = InputLoginUsecase(
             email=input.email,
             password=input.password,
@@ -49,6 +54,25 @@ async def login(requests: Request, input: InputLoginRoute, response: Response):
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
+
+@account_router.post("/change-password", status_code=201)
+async def change_password(requests: Request, input: InputChangePasswordRouteDto, response: Response):
+
+    try:
+        session_key = None
+        if requests.cookies.get("user_cookie"):
+            session_key = cookie(requests)
+
+        input = InputChangePasswordDto(
+            new_password=input.password,
+            session_key=session_key
+        )
+        response = await http_adapter(request=requests, controller=change_password_composer(), response=response, input=input)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
 
 @account_router.get("/verify", status_code=200)

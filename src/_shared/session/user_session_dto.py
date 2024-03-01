@@ -11,6 +11,7 @@ class UserSessionDto(BaseModel):
     token: str
     token_key: str
     time_session: datetime.datetime
+    user_id: str
 
 
  

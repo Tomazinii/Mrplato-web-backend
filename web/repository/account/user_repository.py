@@ -1,6 +1,5 @@
 from src._shared.value_object.email import Email
 from src.account.domain.entity.user import User
-from src.account.domain.factory.user_factory import UserFactory
 from src.account.domain.repository.user_repository_interface import UserRepositoryInterface
 from web.repository.account.user_model import UserModel
 from web.repository.db.config.connection import DBConnectionHandler
@@ -74,7 +73,18 @@ class UserRepository(UserRepositoryInterface):
             except Exception as error:
                 raise error
     
+    def change_password(self, user_id: str, password: str):
+        with DBConnectionHandler() as db:
+            try:
+                user_exists = db.session.query(UserModel).filter_by(id=user_id).first()
+                user_exists.password = password
+                db.session.commit()
+            
+            except Exception as error:
+                raise error
+
     def update(self, user: User):
         return super().update(user)
+
     
     

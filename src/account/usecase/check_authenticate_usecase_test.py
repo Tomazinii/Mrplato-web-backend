@@ -18,6 +18,7 @@ async def test_check_authenticate_success():
 
     user_session = UserSessionDto(
         id=uuid4(),
+        user_id="user_id",
         time_session=datetime.datetime.now(),
         token="token",
         token_key="token_key",
@@ -52,6 +53,7 @@ async def test_check_authenticate_fail():
 
     user_session = UserSessionDto(
         id=uuid4(),
+        user_id="user_id",
         time_session=datetime.datetime.now(),
         token="token",
         token_key="token_key",

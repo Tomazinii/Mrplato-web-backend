@@ -67,14 +67,12 @@ verifier = BasicVerifier(
 
 class UserSession(UserSessionInterface):
 
-    async def create(self, jwt, jwt_secret, response):
+    async def create(self, jwt, jwt_secret, response, user_id):
         session_key = uuid4()
 
-        print("CREATE", session_key)
-        print("CREATE", session_key)
-        print("CREATE", session_key)
         data = UserSessionDto(
             id=session_key,
+            user_id=user_id,
             time_session = datetime.datetime.now() + datetime.timedelta(weeks=5),
             token=jwt,
             token_key=jwt_secret
@@ -91,11 +89,8 @@ class UserSession(UserSessionInterface):
         if await self.verify(session_key) is not None:
             await backend.delete(session_key)
 
-
         
     async def verify(self, session_key):
-
-
         if session_key is None:
             return None
         

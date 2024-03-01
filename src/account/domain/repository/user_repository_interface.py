@@ -30,3 +30,6 @@ class UserRepositoryInterface(ABC):
     def check_register(self, email: str):
         raise NotImplementedError
 
+    @abstractmethod
+    def change_password(self, user_id: str, password: str):
+        raise NotImplementedError
