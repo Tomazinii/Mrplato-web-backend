@@ -69,6 +69,10 @@ class UserSession(UserSessionInterface):
 
     async def create(self, jwt, jwt_secret, response):
         session_key = uuid4()
+
+        print("CREATE", session_key)
+        print("CREATE", session_key)
+        print("CREATE", session_key)
         data = UserSessionDto(
             id=session_key,
             time_session = datetime.datetime.now() + datetime.timedelta(weeks=5),
@@ -89,11 +93,11 @@ class UserSession(UserSessionInterface):
         
     async def verify(self, session_key):
 
+
         if session_key is None:
             return None
         
         session_data = await backend.read(session_key)
-
         if session_data is None:
             return None
         

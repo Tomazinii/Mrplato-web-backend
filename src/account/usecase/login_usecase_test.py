@@ -24,14 +24,11 @@ async def test_login_usecase():
         username="alecrin"
     )
 
-    data={
-            "user_id": user_test.get_id(),
-            "email": user_test.get_email(),
-            "username": user_test.get_username(),
-            "is_authenticated": user_test.get_is_authenticated()
-        }
 
-    service.enconde.return_value = data
+
+    jwt_mock = Mock()
+    jwt_secret = "jwt_secret"
+    service.encode.return_value = (jwt_mock, jwt_secret)
     session.create.return_value = None
 
     repository.get_by_email.return_value = user_test

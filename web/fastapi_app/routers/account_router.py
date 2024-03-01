@@ -8,11 +8,12 @@ from src.account.usecase.user_register_usecase_dto import InputUserRegisterUseca
 from src.mrplato.usecase.get_options_usecase_dto import InputGetOptionsUsecaseDto
 from src.mrplato.usecase.prover_usecase_dto import InputProverUsecaseDto
 from web.adapters.http_adapter import http_adapter
+from web.composers.account.check_composer import check_authentication_composer
 from web.composers.account.login_composer import login_composer
 from web.composers.account.register_compose import register_composer
 from web.composers.mrplato.get_options_composer import get_options_composer
 from web.composers.mrplato.prover_mrplato_composer import mrplato_composer
-from web.session.mrplato_session import cookie
+from web.session.user_session import cookie
 
 account_router = APIRouter()
 
@@ -68,4 +69,24 @@ async def login(requests: Request, input: InputLoginRoute, response: Response):
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+
+
+@account_router.get("/verify", status_code=200)
+async def verify(requests: Request):
+    try:
+
+        session_key = None
+        if requests.cookies.get("user_cookie"):
+            session_key = cookie(requests)
+   
+        response = await http_adapter(request=requests, controller=check_authentication_composer(), response=None, input=session_key)
+
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+
 

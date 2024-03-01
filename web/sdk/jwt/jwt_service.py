@@ -19,3 +19,4 @@ class JwtService(JwtServiceInterface):
     def decode(self, data: any, jwt_secret: str):
         algorithm="HS256"
         data = jwt.decode(data, jwt_secret, algorithms=algorithm)
+        return data
