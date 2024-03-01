@@ -76,3 +76,5 @@ class UserRepository(UserRepositoryInterface):
     
     def update(self, user: User):
         return super().update(user)
+    
+    

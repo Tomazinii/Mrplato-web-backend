@@ -88,7 +88,9 @@ class UserSession(UserSessionInterface):
         return session_data
     
     async def delete(self, session_key):
-        await backend.delete(session_key)
+        if await self.verify(session_key) is not None:
+            await backend.delete(session_key)
+
 
         
     async def verify(self, session_key):
