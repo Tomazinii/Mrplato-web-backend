@@ -1,4 +1,3 @@
-from uuid import uuid4
 from pydantic import BaseModel
 from fastapi import APIRouter,Request,HTTPException,Response
 from src._shared.controller.errors.types.handle_http_error import handle_errors

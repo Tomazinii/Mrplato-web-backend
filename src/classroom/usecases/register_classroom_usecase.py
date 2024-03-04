@@ -11,7 +11,6 @@ class RegisterClassroomUsecase(UsecaseInterface):
     def __init__(self, repository: ClassroomRepositoryInterface):
         self.repository = repository
 
-
     def execute(self, input: InputRegisterClassroomDto):
 
         classroom = ClassroomFactory.create(

@@ -12,7 +12,7 @@ class Email:
     def validate(self, email: str):
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
         if not (re.fullmatch(regex, email)):
-            raise BadRequestError("Invalid email")
+            raise BadRequestError(f"Invalid email {email}")
         
     def get_email(self):
         return self.__email

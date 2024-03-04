@@ -16,6 +16,6 @@ class Classroom(Base):
     def get_name_class(self):
         return self.__class_name
     
-    def get_teacher_id(self):
+    def get_teacher(self):
         return self.__teacher
 

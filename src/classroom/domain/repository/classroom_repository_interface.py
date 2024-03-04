@@ -1,7 +1,5 @@
-
-
 from abc import ABC, abstractmethod
-
+from src.account.domain.entity.invite import InviteStudent
 from src.classroom.domain.entity.classroom import Classroom
 
 
@@ -18,3 +16,4 @@ class ClassroomRepositoryInterface(ABC):
     @abstractmethod
     def get_by_id(self, id):
         raise NotImplementedError
+    
