@@ -14,3 +14,11 @@ class InputRegisterClassroomDto(BaseModel):
     teacher_updated: datetime.datetime
     created_at: datetime.datetime
     updated_at: datetime.datetime
+
+
+class OutputRegisterClassroomDto(BaseModel):
+    id: str
+    class_name: str
+    teacher_email: str
+    teacher_name: str
+    created_at: datetime.datetime

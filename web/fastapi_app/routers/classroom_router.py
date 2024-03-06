@@ -16,6 +16,7 @@ from web.composers.account.check_composer import check_authentication_composer
 from web.composers.account.login_composer import login_composer
 from web.composers.account.logout_composer import logout_composer
 from web.composers.classroom.classroom_composer import classroom_composer
+from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
 from web.session.user_session import cookie
 
@@ -25,6 +26,7 @@ class InputRegisterClassroomRoute(BaseModel):
     class_name: str
     teacher_email: str
     teacher_name: str
+    user_id: str
 
 class InputInviteRouter(BaseModel):
     students_email: List
@@ -40,7 +42,7 @@ def register(requests: Request, input: InputRegisterClassroomRoute):
             id=str(uuid4()),
             teacher_created=datetime.datetime.now(),
             teacher_email=input.teacher_email,
-            teacher_id=str(uuid4()),
+            teacher_id=input.user_id,
             teacher_name=input.teacher_name,
             teacher_updated=datetime.datetime.now(),
             updated_at=datetime.datetime.now(),
@@ -51,6 +53,17 @@ def register(requests: Request, input: InputRegisterClassroomRoute):
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+@classroom_router.get("/get_classroom/{teacher_id}", status_code=201)
+def register(requests: Request, teacher_id: str):
+    try:
+        response = http_adapter(controller=get_classroom_composer(), request=requests, input=teacher_id, response=None)
+        return response
+
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
 
 
 @classroom_router.post("/create_invite", status_code=201)

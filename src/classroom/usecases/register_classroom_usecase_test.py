@@ -27,4 +27,6 @@ def test_register_classroom():
 
     result = usecase.execute(input)
 
-    assert result is None
+    assert result.class_name == "classroom"
+    assert result.id == "id"
+    assert result.teacher_name == "teacher"

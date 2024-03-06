@@ -1,8 +1,10 @@
 
 
+from typing import List
 from src.account.domain.entity.invite import InviteStudent
 from src.classroom.domain.entity.classroom import Classroom
 from src.classroom.domain.repository.classroom_repository_interface import ClassroomRepositoryInterface
+from src.classroom.usecases.get_classroom_usecase_dto import ClassroomDto, OutputGetClassroomUsecaseDto
 from web.repository.classroom.classroom_models import ClassroomModel
 from web.repository.db.config.connection import DBConnectionHandler
 
@@ -40,3 +42,24 @@ class ClassroomRepository(ClassroomRepositoryInterface):
     def get_by_id(self, id):
         raise NotImplementedError
     
+    @classmethod
+    def get(self, teacher_id) -> List[ClassroomModel]:
+        try:
+            with DBConnectionHandler() as db:
+                data = db.session.query(ClassroomModel).filter_by(teacher_id=teacher_id).all()
+
+                classrooms = [ ClassroomDto(
+                            class_name=classroom.class_name,
+                            teacher_name=classroom.teacher_name,
+                            created_at=classroom.created_at,
+                            id=classroom.id,
+                            teacher_email=classroom.teacher_email,
+                        ) for classroom in data]
+                
+                return classrooms
+
+                
+        except Exception as error:
+            db.session.rollback()
+            raise error
+        

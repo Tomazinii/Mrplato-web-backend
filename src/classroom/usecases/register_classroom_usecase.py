@@ -3,7 +3,7 @@
 from src._shared.usecase.usecase_interface import UsecaseInterface
 from src.classroom.domain.factory.classroom_factory import ClassroomFactory
 from src.classroom.domain.repository.classroom_repository_interface import ClassroomRepositoryInterface
-from src.classroom.usecases.register_classroom_usecase_dto import InputRegisterClassroomDto
+from src.classroom.usecases.register_classroom_usecase_dto import InputRegisterClassroomDto, OutputRegisterClassroomDto
 
 
 class RegisterClassroomUsecase(UsecaseInterface):
@@ -26,3 +26,13 @@ class RegisterClassroomUsecase(UsecaseInterface):
         )
 
         self.repository.create(classroom)
+
+        output = OutputRegisterClassroomDto(
+            class_name=input.class_name,
+            created_at=input.created_at,
+            id=input.id,
+            teacher_email=input.teacher_email,
+            teacher_name=input.teacher_name,
+        )
+
+        return output

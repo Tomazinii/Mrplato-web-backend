@@ -32,6 +32,7 @@ class LoginUsecase(UsecaseInterface):
             "user_id": f"{user.get_id()}",
             "email": f"{user.get_email()}",
             "username": f"{user.get_username()}",
+            "is_admin": f"{user.get_is_admin()}",
         }
         )
         

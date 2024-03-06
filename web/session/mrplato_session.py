@@ -79,8 +79,9 @@ class MrplatoSession(MrplatoSessionInterface):
             time_session = datetime.datetime.now() + datetime.timedelta(weeks=1)
         )
 
-        await backend.create(session_key, dataSession)
         
+
+        await backend.create(session_key, dataSession)
         cookie.attach_to_response(response, session_key)
 
         return dataSession

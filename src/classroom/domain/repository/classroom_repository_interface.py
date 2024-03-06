@@ -17,3 +17,6 @@ class ClassroomRepositoryInterface(ABC):
     def get_by_id(self, id):
         raise NotImplementedError
     
+    @abstractmethod
+    def get(self, teacher_id):
+        raise NotImplementedError
