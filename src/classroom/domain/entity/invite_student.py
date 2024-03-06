@@ -39,9 +39,7 @@ class InvetStudent(Base):
     def set_time_expires(self, expires: datetime.datetime):
         self.__time_expires = expires
 
-    def verify_time_expires(self):
-        if datetime.datetime.now() > self.__time_expires:
-            raise BadRequestError("invitation time has expired")
+
 
     def get_classroom_id(self):
         return self.__classroom_id

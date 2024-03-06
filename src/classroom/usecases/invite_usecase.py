@@ -26,11 +26,11 @@ class InviteStudentUsecase(UsecaseInterface):
                 invite = InviteStudent(
                     classroom_id=input.classroom_id,
                     id=str(uuid4()),
-                    time_expires=datetime.datetime.now()
+                    time_expires=datetime.datetime.now() + datetime.timedelta(weeks=3)
                 )
                 invite.set_to(email=element)
 
-                link_invite = f"https://google.com/{invite.get_id()}/{invite.get_classroom_id()}"
+                link_invite = f"http://localhost:3001/invite/{invite.get_id()}/{invite.get_classroom_id()}"
 
                 content = f""" 
     Hello Student,

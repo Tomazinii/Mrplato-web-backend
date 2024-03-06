@@ -11,3 +11,7 @@ class InviteStudentRepositoryInterface(ABC):
     def create(self, input: InviteStudent):
         raise NotImplementedError
     
+    @abstractmethod
+    def get(self, id: str):
+        raise NotImplementedError
+    

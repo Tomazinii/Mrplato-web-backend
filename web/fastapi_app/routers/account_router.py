@@ -21,7 +21,7 @@ class InputChangePasswordRouteDto(BaseModel):
     password: str
 
 
-@account_router.post("/logout", status_code=200)
+@account_router.get("/logout", status_code=200)
 async def logout(requests: Request):
     try:
         session_key = None

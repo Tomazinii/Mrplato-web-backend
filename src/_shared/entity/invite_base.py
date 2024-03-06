@@ -1,5 +1,7 @@
 import datetime
 
+from src._shared.errors.bad_request import BadRequestError
+
 
 class InviteBase:
     __id: str
@@ -15,4 +17,7 @@ class InviteBase:
     
     def get_time_expires(self):
         return self.__time_expires
-        
+
+    def verify_time_expires(self):
+        if datetime.datetime.now() > self.__time_expires:
+            raise BadRequestError("invitation time has expired")

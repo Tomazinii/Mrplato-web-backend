@@ -15,6 +15,7 @@ from web.composers.account.change_password_composer import change_password_compo
 from web.composers.account.check_composer import check_authentication_composer
 from web.composers.account.login_composer import login_composer
 from web.composers.account.logout_composer import logout_composer
+from web.composers.classroom.check_invite_composer import check_invite_composer
 from web.composers.classroom.classroom_composer import classroom_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
@@ -64,7 +65,22 @@ def register(requests: Request, teacher_id: str):
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
+class InputCheckInviteRouter(BaseModel):
+    invite_id: str
 
+@classroom_router.post("/check_invite", status_code=200)
+def check_invite(requests: Request, input: InputCheckInviteRouter):
+    print("QWEWQEQWE",input.invite_id)
+    print("QWEWQEQWE",input.invite_id)
+    print("QWEWQEQWE",input.invite_id)
+    print("QWEWQEQWE",input.invite_id)
+    try:
+        response = http_adapter(controller=check_invite_composer(), request=requests, input=input.invite_id, response=None)
+        return response
+
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
 @classroom_router.post("/create_invite", status_code=201)
 def create_invite(requests: Request, input: InputInviteRouter):
