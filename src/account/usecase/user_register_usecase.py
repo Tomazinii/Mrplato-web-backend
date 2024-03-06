@@ -16,10 +16,13 @@ class UserRegisterUsecase(UsecaseInterface):
         self.repository = repository
 
     def execute(self, input: InputUserRegisterUsecaseDto):
+
         check_register = self.repository.check_register(input.email)
-        
+
         if check_register:
-            raise BadRequestError("already registered user")
+            return None
+        
+
 
         user = UserFactory.create(
             created_at=input.created_at,
@@ -29,6 +32,8 @@ class UserRegisterUsecase(UsecaseInterface):
             updated_at=input.updated_at,
             username=input.username,
         )
+
+
 
         if input.is_admin:
             user.set_is_admin()

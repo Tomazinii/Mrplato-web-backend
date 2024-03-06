@@ -29,3 +29,9 @@ class Student(Base):
     
     def set_classroom_id(self, classroom_id):
         self.__classroom_id = classroom_id
+
+    def get_classroom_id(self):
+        return self.__classroom_id
+
+    def change_id(self, id):
+        self.__id = id

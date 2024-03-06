@@ -10,6 +10,7 @@ from src.account.usecase.change_password_usecase_dto import InputChangePasswordD
 from src.account.usecase.login_usecase_dto import InputLoginUsecase
 from src.classroom.usecases.invite_usecase_dto import InputInviteStudentDto
 from src.classroom.usecases.register_classroom_usecase_dto import InputRegisterClassroomDto
+from src.classroom.usecases.register_student_usecase_dto import InputRegisterStudentUsecaseDto
 from web.adapters.http_adapter import http_adapter
 from web.composers.account.change_password_composer import change_password_composer
 from web.composers.account.check_composer import check_authentication_composer
@@ -19,6 +20,7 @@ from web.composers.classroom.check_invite_composer import check_invite_composer
 from web.composers.classroom.classroom_composer import classroom_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
+from web.composers.classroom.register_student_composer import register_student_composer
 from web.session.user_session import cookie
 
 classroom_router= APIRouter()
@@ -70,10 +72,6 @@ class InputCheckInviteRouter(BaseModel):
 
 @classroom_router.post("/check_invite", status_code=200)
 def check_invite(requests: Request, input: InputCheckInviteRouter):
-    print("QWEWQEQWE",input.invite_id)
-    print("QWEWQEQWE",input.invite_id)
-    print("QWEWQEQWE",input.invite_id)
-    print("QWEWQEQWE",input.invite_id)
     try:
         response = http_adapter(controller=check_invite_composer(), request=requests, input=input.invite_id, response=None)
         return response
@@ -81,6 +79,41 @@ def check_invite(requests: Request, input: InputCheckInviteRouter):
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+
+class InputRegisterStudentRouter(BaseModel):
+    enrollment: str
+    username: str
+    email: str
+    password: str
+    classroom_id: str
+
+
+
+@classroom_router.post("/register_student", status_code=200)
+def register_student(requests: Request, input: InputRegisterStudentRouter):
+    try:
+
+        input = InputRegisterStudentUsecaseDto(
+                classroom_id=input.classroom_id,
+                created_at=datetime.datetime.now(),
+                email=input.email,
+                username=input.username,
+                enrollment=input.enrollment,
+                id=str(uuid4()),
+                password=input.password,
+                updated_at=datetime.datetime.now()
+        )
+        response = http_adapter(controller=register_student_composer(), request=requests, input=input, response=None)
+        return response
+
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+
+
+
 
 @classroom_router.post("/create_invite", status_code=201)
 def create_invite(requests: Request, input: InputInviteRouter):

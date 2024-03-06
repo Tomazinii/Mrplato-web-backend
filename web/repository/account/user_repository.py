@@ -67,7 +67,9 @@ class UserRepository(UserRepositoryInterface):
     def check_register(self, email: str) -> bool:
         with DBConnectionHandler() as db:
             try:
+
                 user_exists = db.session.query(UserModel).filter_by(email=email).first() is not None
+
                 return user_exists
             
             except Exception as error:
