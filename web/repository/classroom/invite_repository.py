@@ -19,6 +19,7 @@ class InviteStudentRepository(InviteStudentRepositoryInterface):
                     to = input.get_to(),
                     time_expires = input.get_time_expires(),
                     classroom_id = input.get_classroom_id(),
+                    active= input.get_active()
                 )
                 db.session.add(invite)
                 db.session.commit()
@@ -41,10 +42,23 @@ class InviteStudentRepository(InviteStudentRepositoryInterface):
                             id=data.id,
                             time_expires=data.time_expires,
                         )
+                        invite.set_active(data.active)
                         email = Email(data.to)
                         invite.set_to(email=email)
                         return invite
                 raise BadRequestError("Error getting invite")
+            
+        except Exception as error:
+            db.session.rollback()
+            raise error
+        
+    @classmethod
+    def stamp(self, id):
+        try:
+            with DBConnectionHandler() as db:
+                data = db.session.query(InviteModel).filter_by(id=id).first()
+                data.active = False
+                db.session.commit()
             
         except Exception as error:
             db.session.rollback()

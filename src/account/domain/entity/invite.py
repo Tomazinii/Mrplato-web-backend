@@ -1,4 +1,3 @@
-import datetime
 from src._shared.entity.invite_base import InviteBase
 from src._shared.value_object.email import Email
 

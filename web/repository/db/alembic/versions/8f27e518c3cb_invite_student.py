@@ -24,6 +24,7 @@ def upgrade():
         sa.Column('id', sa.String(), nullable=False),
         sa.Column('to', sa.String(), nullable=False),
         sa.Column('time_expires', sa.DateTime(), nullable=False),
+        sa.Column('active', sa.Boolean(), nullable=False, default=False),
         sa.Column('classroom_id', sa.String(), sa.ForeignKey('classroom.id'), nullable=False),
         sa.PrimaryKeyConstraint('id')
     )

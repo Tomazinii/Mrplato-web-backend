@@ -27,6 +27,7 @@ def test_register_student_usecase():
         username="alecrin",
         classroom_id="id",
         email="a@a.com",
+        invite_id="invite_id",
     )
 
     student = Student(

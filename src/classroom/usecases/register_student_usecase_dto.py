@@ -13,3 +13,4 @@ class InputRegisterStudentUsecaseDto(BaseModel):
     updated_at: datetime.datetime
     password: str
     classroom_id: str
+    invite_id: str

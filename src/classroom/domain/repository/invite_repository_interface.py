@@ -15,3 +15,6 @@ class InviteStudentRepositoryInterface(ABC):
     def get(self, id: str):
         raise NotImplementedError
     
+    def stamp(self, id):
+        raise NotImplementedError
+    

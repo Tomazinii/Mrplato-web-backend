@@ -87,13 +87,13 @@ class InputRegisterStudentRouter(BaseModel):
     email: str
     password: str
     classroom_id: str
+    invite_id: str
 
 
 
 @classroom_router.post("/register_student", status_code=200)
 def register_student(requests: Request, input: InputRegisterStudentRouter):
     try:
-
         input = InputRegisterStudentUsecaseDto(
                 classroom_id=input.classroom_id,
                 created_at=datetime.datetime.now(),
@@ -102,8 +102,10 @@ def register_student(requests: Request, input: InputRegisterStudentRouter):
                 enrollment=input.enrollment,
                 id=str(uuid4()),
                 password=input.password,
-                updated_at=datetime.datetime.now()
+                updated_at=datetime.datetime.now(),
+                invite_id=input.invite_id
         )
+
         response = http_adapter(controller=register_student_composer(), request=requests, input=input, response=None)
         return response
 
