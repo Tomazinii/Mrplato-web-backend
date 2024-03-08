@@ -9,6 +9,7 @@ from src._shared.controller.errors.types.handle_http_error import handle_errors
 from src.account.usecase.change_password_usecase_dto import InputChangePasswordDto
 from src.account.usecase.login_usecase_dto import InputLoginUsecase
 from src.classroom.usecases.invite_usecase_dto import InputInviteStudentDto
+from src.classroom.usecases.register_activity_usecase_dto import InputRegisterActivityUsecaseDto
 from src.classroom.usecases.register_classroom_usecase_dto import InputRegisterClassroomDto
 from src.classroom.usecases.register_student_usecase_dto import InputRegisterStudentUsecaseDto
 from web.adapters.http_adapter import http_adapter
@@ -20,6 +21,7 @@ from web.composers.classroom.check_invite_composer import check_invite_composer
 from web.composers.classroom.classroom_composer import classroom_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
+from web.composers.classroom.register_activity_composer import register_activity_composer
 from web.composers.classroom.register_student_composer import register_student_composer
 from web.session.user_session import cookie
 
@@ -130,3 +132,36 @@ def create_invite(requests: Request, input: InputInviteRouter):
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+    
+
+
+
+class InputRegisterActivitySelectRouter(BaseModel):
+    time: datetime.datetime
+    problem_id: str
+    classroom_id: str
+    category: str
+    availability: bool
+
+
+
+@classroom_router.post("/register_activity_select_problem", status_code=201)
+async def register_activity_select_problem(requests: Request, input: InputRegisterActivitySelectRouter, response: Response):
+
+    try:
+        input = InputRegisterActivityUsecaseDto(
+            category=input.category,
+            classroom_id=input.classroom_id,
+            created_at=datetime.datetime.now(),
+            id=str(uuid4()),
+            problem_id=input.problem_id,
+            time=input.time,
+            availability=input.availability
+        )
+        response = http_adapter(request=requests, controller=register_activity_composer(), response=response, input=input)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
