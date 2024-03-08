@@ -1,6 +1,7 @@
 
 
 from abc import ABC, abstractmethod
+from typing import List
 
 from src.classroom.domain.entity.activity import Activity
 
@@ -17,6 +18,10 @@ class ActivityRepositoryInterface(ABC):
     
     @abstractmethod
     def get_by_id(self, id):
+        raise NotImplementedError
+    
+    @abstractmethod
+    def update_availabity(self, list_activity_id_time_expired: List):
         raise NotImplementedError
     
     @abstractmethod

@@ -1,3 +1,4 @@
+from typing import List
 from src.classroom.domain.entity.activity import Activity
 from src.classroom.domain.repository.activity_repository_interface import ActivityRepositoryInterface
 from web.repository.classroom.activity_models import ActivityModel
@@ -37,8 +38,29 @@ class ActivityRepository(ActivityRepositoryInterface):
     
     @classmethod
     def get_by_classroom(self, classroom_id):
-        raise NotImplementedError
-    
+        try:
+            with DBConnectionHandler() as db:
+                element = db.session.query(ActivityModel).filter_by(classroom_id=classroom_id).all()
+                return element
+
+        except Exception as error:
+            db.session.rollback()
+            raise error
+        
+
+    @classmethod
+    def update_availabity(self, list_activity_id: List):
+        with DBConnectionHandler() as db:
+            try:
+                for id in list_activity_id:
+                    data = db.session.query(ActivityModel).filter_by(id=id).first()
+                    data.availability = False
+                    db.session.commit()
+            
+            except Exception as error:
+                raise error
+
+
     @classmethod
     def get(self, teacher_id):
         try:

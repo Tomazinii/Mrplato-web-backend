@@ -19,6 +19,7 @@ from web.composers.account.login_composer import login_composer
 from web.composers.account.logout_composer import logout_composer
 from web.composers.classroom.check_invite_composer import check_invite_composer
 from web.composers.classroom.classroom_composer import classroom_composer
+from web.composers.classroom.get_activity_by_classroom_composer import get_activity_by_classroom_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
 from web.composers.classroom.register_activity_composer import register_activity_composer
@@ -159,6 +160,20 @@ async def register_activity_select_problem(requests: Request, input: InputRegist
             availability=input.availability
         )
         response = http_adapter(request=requests, controller=register_activity_composer(), response=response, input=input)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+import time
+
+@classroom_router.get("/get_activity_by_classroom/{classroom_id}", status_code=200)
+async def register_activity_select_problem(requests: Request, classroom_id: str, response: Response):
+    try:
+        start_time = time.time()
+        response = http_adapter(request=requests, controller=get_activity_by_classroom_composer(), response=response, input=classroom_id)
+        end_time = time.time()
         return response
     
     except Exception as error:
