@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from src.classroom.domain.entity.activity import Activity
 from src.classroom.domain.repository.activity_repository_interface import ActivityRepositoryInterface
@@ -40,7 +41,7 @@ class ActivityRepository(ActivityRepositoryInterface):
     def get_by_classroom(self, classroom_id):
         try:
             with DBConnectionHandler() as db:
-                element = db.session.query(ActivityModel).filter_by(classroom_id=classroom_id).all()
+                element = db.session.query(ActivityModel).filter_by(classroom_id=classroom_id).order_by(ActivityModel.created_at.desc()).all()
                 return element
 
         except Exception as error:

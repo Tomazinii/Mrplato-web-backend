@@ -25,28 +25,31 @@ class GetActivityByClassroomUsecase(UsecaseInterface):
 
         list_activity_id_time_expired = []
 
-        for element in data:
-                if now > element.time and element.availability:
-                    list_activity_id_time_expired.append(element.id)
-                    problems = []
-                elif not now > element.time and element.availability:
-                    problems = element.list_problem
-                else:
-                    problems = []
 
-        output.append(
-            OutputGetActivityByClassroomDto(
-                availability=element.availability,
-                category=element.category,
-                classroom_id=element.classroom_id,
-                id=element.id,
-                problem=problems,
-                problem_id=element.problem_id,
-                problem_name=element.problem_name,
-                problem_slug=element.problem_slug,
-                time=element.time,
-            )
-            )
+
+        for element in data:
+            if now > element.time and element.availability:
+                list_activity_id_time_expired.append(element.id)
+                problems = []
+            elif not now > element.time and element.availability:
+                problems = element.list_problem
+            else:
+                problems = []
+
+            output.append(
+                OutputGetActivityByClassroomDto(
+                    availability=element.availability,
+                    category=element.category,
+                    classroom_id=element.classroom_id,
+                    id=element.id,
+                    problem=problems,
+                    problem_id=element.problem_id,
+                    problem_name=element.problem_name,
+                    problem_slug=element.problem_slug,
+                    time=element.time,
+                )
+                )
+        
 
         self.repository.update_availabity(list_activity_id_time_expired)
 

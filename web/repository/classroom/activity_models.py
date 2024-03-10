@@ -6,7 +6,7 @@ class ActivityModel(Base):
     __tablename__ = 'activity'
     id = Column(String, primary_key=True)
     category = Column(String, nullable=False)
-    time = Column(DateTime, nullable=False)
+    time = Column(DateTime(timezone=True), nullable=False)
     availability = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)

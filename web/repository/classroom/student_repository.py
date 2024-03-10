@@ -1,5 +1,7 @@
 
 from typing import List
+from src._shared.errors.not_found import NotFoundError
+from src._shared.value_object.email import Email
 from src.classroom.domain.entity.student import Student
 from src.classroom.domain.repository.student_repository_interface import StudentRepositoryInterface
 from web.repository.classroom.classroom_models import ClassroomModel
@@ -33,8 +35,30 @@ class StudentRepository(StudentRepositoryInterface):
 
 
     @classmethod
-    def get_by_id(self, id):
-        raise NotImplementedError
+    def get_by_id(self, id) -> Student:
+        try:
+            with DBConnectionHandler() as db:
+                element = db.session.query(StudentModel).filter_by(id=id).first()
+
+                if element is None:
+                    raise NotFoundError("Student not found")
+ 
+                student = Student(
+                    created_at=element.created_at,
+                    enrollment=element.enrollment,
+                    id=element.id,
+                    name=element.username,
+                    updated_at=element.updated_at,
+                )
+                student.set_classroom_id(element.classroom_id)
+                email = Email(element.email)
+                student.set_email(email=email)
+                
+                return student
+
+        except Exception as error:
+            db.session.rollback()
+            raise error
     
     @classmethod
     def get(self, teacher_id) -> List[ClassroomModel]:
