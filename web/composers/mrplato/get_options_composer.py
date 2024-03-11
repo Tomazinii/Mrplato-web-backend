@@ -11,12 +11,9 @@ from web.sdk.mrplato.get_options import get_option as get_options_method
 def get_options_composer():
 
     session = MrplatoSession()
-    repository_problem = ProblemRepository()
-    get_by_id_usecase = GetListProblemUsecase(repository=repository_problem)
-    problem_facade = ProblemFacade(get_by_id_usecase=get_by_id_usecase)
     get_options = get_options_method
-    service_mrplato = ServiceMrplato(get_option_method=get_options, prover=None)
-    usecase = GetOptionsUsecase(service=service_mrplato, problem_facade=problem_facade, session=session)
+    service_mrplato = ServiceMrplato(get_option_method=get_options, prover=None, get_current_status_prover_method=None)
+    usecase = GetOptionsUsecase(service=service_mrplato, session=session)
     controller = GetOptionController(usecase=usecase)
 
     return controller

@@ -14,6 +14,10 @@ class MrplatoSessionInterface(ABC):
         raise NotImplementedError
     
     @abstractmethod
+    def restart(self, session_key):
+        raise NotImplementedError
+    
+    @abstractmethod
     def delete(self, session_key):
         raise NotImplementedError
     

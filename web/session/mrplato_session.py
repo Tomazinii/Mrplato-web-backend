@@ -79,8 +79,6 @@ class MrplatoSession(MrplatoSessionInterface):
             time_session = datetime.datetime.now() + datetime.timedelta(weeks=1)
         )
 
-        
-
         await backend.create(session_key, dataSession)
         cookie.attach_to_response(response, session_key)
 
@@ -92,12 +90,22 @@ class MrplatoSession(MrplatoSessionInterface):
         
     
     async def delete(self, session_key):
-        await backend.delete(session_key)
+        if session_key is not None:
+            try:
+                await backend.delete(session_key)
+            except:
+                pass
+
 
     
     async def update(self, session_key, data_session):
         await backend.update(session_key, data_session)
 
+
+    async def restart(self, session_key, response):
+        if session_key is not None:
+            await backend.delete(session_key)
+            return await self.create(response)
     
     
     async def verify(self, session_key, response):

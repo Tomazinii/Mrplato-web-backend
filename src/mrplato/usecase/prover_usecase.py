@@ -12,17 +12,15 @@ from web.sdk.mrplato.prover_dto import InputProverDto, OutputProverDto
 
 class ProverUsecase(UsecaseInterface):
     
-    def __init__(self, service: ServiceMrplatoInterface, session: MrplatoSessionInterface, problem_facade: ProblemFacadeInterface):
+    def __init__(self, service: ServiceMrplatoInterface, session: MrplatoSessionInterface):
         self.service = service
         self.session = session
-        self.problem_facade = problem_facade
 
 
     async def execute(self, input: InputProverUsecaseDto, response) -> OutpuProverUsecaseDto:
-        session_data: MrplatoSessionDto = await self.session.verify(session_key=input.session_key, response=response)
 
-        list_problem: OutputGetListProblemDto = self.problem_facade.get_by_id(input=input.list_index)
-        problem = list_problem.list_problem[input.pb_index]
+        session_data: MrplatoSessionDto = await self.session.verify(session_key=input.session_key, response=response)
+        problem = input.problem
 
 
         input_prover = InputProverDto(
@@ -41,11 +39,7 @@ class ProverUsecase(UsecaseInterface):
         
         serialized_instance = pickle.dumps(prover.prover_instance)
         session_data.prover = serialized_instance
-
-
         await self.session.update(session_key=session_data.id, data_session=session_data)
-
-
 
         output = OutpuProverUsecaseDto(
             lines=prover.lines,

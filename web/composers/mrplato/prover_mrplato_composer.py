@@ -13,9 +13,7 @@ from web.sdk.mrplato.prover import prover as prover_method
 def mrplato_composer():
     session = MrplatoSession()
     prover = prover_method
-    service_prover = ServiceMrplato(prover=prover, get_option_method=None)
-    problem_repository = ProblemRepository()
-    problem_facade = ProblemFacade(get_by_id_usecase=GetListProblemUsecase(repository=problem_repository))
-    usecase = ProverUsecase(service=service_prover, session=session, problem_facade=problem_facade)
+    service_prover = ServiceMrplato(prover=prover, get_option_method=None, get_current_status_prover_method=None)
+    usecase = ProverUsecase(service=service_prover, session=session)
     controller = MrplatoController(usecase=usecase)
     return controller
