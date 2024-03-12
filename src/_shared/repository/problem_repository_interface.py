@@ -10,6 +10,11 @@ class ProblemRepositoryInterface(ABC):
     def create(self, input) -> any:
         raise Exception("method not implemented")
     
+        
+    @abstractmethod
+    def get_all(self):
+        raise Exception("method not implemented")
+    
     def get_by_id(self, id) -> Problem:
         raise Exception("method not implemented")
     
@@ -18,3 +23,4 @@ class ProblemRepositoryInterface(ABC):
     
     def delete(self, id):
         raise Exception("method not implemented")
+

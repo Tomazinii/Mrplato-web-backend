@@ -36,7 +36,7 @@ class UserRegisterUsecase(UsecaseInterface):
 
 
         if input.is_admin:
-            user.set_is_admin()
+            user.set_is_admin(status=True)
             user_type = UserPermission.admin_user_permission()
             user.change_type_user(user_type=user_type)
 

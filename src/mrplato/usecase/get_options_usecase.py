@@ -16,6 +16,7 @@ class GetOptionsUsecase(UsecaseInterface):
         self.session = session
 
     async def execute(self, input: InputGetOptionsUsecaseDto, response) -> OutputGetOptionsUsecaseDto:
+
         session_data: MrplatoSessionDto = await self.session.verify(input.session_key, response=response)
 
         input_get_option = InputGetOptionDto(
@@ -29,6 +30,7 @@ class GetOptionsUsecase(UsecaseInterface):
         prover_instance = pickle.loads(session_data.prover)
 
         get_option: OutputGetOptionDto = self.service.get_option(prover_instance=prover_instance, data=input_get_option, problem=input.problem)
+
         serialized_instance = pickle.dumps(get_option.prover_instance)
 
         session_data.prover = serialized_instance

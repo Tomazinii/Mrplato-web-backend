@@ -4,6 +4,8 @@ from web.sdk.mrplato.resources import tools_file as tools
 
 
 
+
+
 def prover(prover_instance, data: InputProverDto, problem: str) -> OutputProverDto:
     selected_proof_line_indexes = data.selected_proof_line_indexes
     type_selected = data.type_selected
@@ -19,10 +21,12 @@ def prover(prover_instance, data: InputProverDto, problem: str) -> OutputProverD
 
     r, msg = pv.input_an_argument(problem)
 
+
+
     r, msg, user_input, new_line, proof_line_updated = \
                 pv.prove(rule_type, sel_rule, selected_proof_line_indexes, pv.proof_lines, (0, None, total_or_partial))
-    
-    
+
+
     if not r:
         raise Exception(f"ERROR: {msg}")
     else:
@@ -30,6 +34,7 @@ def prover(prover_instance, data: InputProverDto, problem: str) -> OutputProverD
             if rule_type in ["HYP", "INF"]:
                 ru, error_message, new_formula = tls.input_formula(input_formula)
                 if not ru:
+                    
                     raise Exception(f"ERROR: {error_message}")
                 else:
                     r, msg, new_line, proof_line_updated = continue_proving_inference(total_or_partial, pv, rule_type, sel_rule,
@@ -55,12 +60,12 @@ def prover(prover_instance, data: InputProverDto, problem: str) -> OutputProverD
                     continue_proving_predicates_1(labels[1], options[1], pv, rule_type,
                                                     sel_rule,selected_proof_line_indexes,
                                                     selected_term)
+                
+    
+
     lines = []
+
     for element in proof_line_updated:
-        if("ADHY" in element[1]):
-            formate = {"content": f"{element[0]}", "methods_used_info":f"{element[1]}", "type":"add",}
-            lines.append(formate)
-        else:
             formate = {"content": f"{element[0]}", "methods_used_info":f"{element[1]}", "type":"default",}
             lines.append(formate)
 

@@ -35,6 +35,7 @@ class ProverUsecase(UsecaseInterface):
 
    
         prover_instance = pickle.loads(session_data.prover)
+
         prover: OutputProverDto = self.service.prover(prover_instance=prover_instance, data=input_prover, problem=problem)
         
         serialized_instance = pickle.dumps(prover.prover_instance)

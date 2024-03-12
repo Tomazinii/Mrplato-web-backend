@@ -36,22 +36,38 @@ class LoginUsecase(UsecaseInterface):
         )
 
 
-        student = self.classroom_facade.get_student_by_id(input_facade.id)
-        if student is None:
-            raise BadRequestError("student not found")
+        if user.get_is_admin():
+            jwt, jwt_secret = self.service.encode(
+                data={
+                "user_id": f"{user.get_id()}",
+                "email": f"{user.get_email()}",
+                "username": f"{user.get_username()}",
+                "is_admin": f"{user.get_is_admin()}",
+                "enrollment": f"",
+                "classroom_id": f"",
+            }
+            )
+            
+            await self.session.create(jwt=jwt, jwt_secret=jwt_secret, response=response, user_id=user.get_id())
 
-        jwt, jwt_secret = self.service.encode(
-            data={
-            "user_id": f"{user.get_id()}",
-            "email": f"{user.get_email()}",
-            "username": f"{user.get_username()}",
-            "is_admin": f"{user.get_is_admin()}",
-            "enrollment": f"{student.enrollment}",
-            "classroom_id": f"{student.classroom_id}",
-        }
-        )
-        
-        await self.session.create(jwt=jwt, jwt_secret=jwt_secret, response=response, user_id=user.get_id())
+            return {
+                "is_admin": True
+            }
+        else:
+            student = self.classroom_facade.get_student_by_id(input_facade.id)
+
+            jwt, jwt_secret = self.service.encode(
+                data={
+                "user_id": f"{user.get_id()}",
+                "email": f"{user.get_email()}",
+                "username": f"{user.get_username()}",
+                "is_admin": f"{user.get_is_admin()}",
+                "enrollment": f"{student.enrollment}",
+                "classroom_id": f"{student.classroom_id}",
+            }
+            )
+            
+            await self.session.create(jwt=jwt, jwt_secret=jwt_secret, response=response, user_id=user.get_id())
 
 
 
