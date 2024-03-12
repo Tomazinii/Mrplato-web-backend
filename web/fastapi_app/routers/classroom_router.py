@@ -9,6 +9,7 @@ from src._shared.controller.errors.types.handle_http_error import handle_errors
 from src.account.usecase.change_password_usecase_dto import InputChangePasswordDto
 from src.account.usecase.login_usecase_dto import InputLoginUsecase
 from src.classroom.usecases.invite_usecase_dto import InputInviteStudentDto
+from src.classroom.usecases.register_activity_by_insert_dto import InputRegisterActivityByInsertUsecaseDto
 from src.classroom.usecases.register_activity_usecase_dto import InputRegisterActivityUsecaseDto
 from src.classroom.usecases.register_classroom_usecase_dto import InputRegisterClassroomDto
 from src.classroom.usecases.register_student_usecase_dto import InputRegisterStudentUsecaseDto
@@ -22,9 +23,13 @@ from web.composers.classroom.classroom_composer import classroom_composer
 from web.composers.classroom.get_activity_by_classroom_composer import get_activity_by_classroom_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
+from web.composers.classroom.register_acticity_by_insert_composer import register_activity_by_insert_composer
 from web.composers.classroom.register_activity_composer import register_activity_composer
 from web.composers.classroom.register_student_composer import register_student_composer
 from web.session.user_session import cookie
+
+from typing_extensions import Annotated
+from fastapi import File, UploadFile
 
 classroom_router= APIRouter()
 
@@ -165,6 +170,45 @@ async def register_activity_select_problem(requests: Request, input: InputRegist
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+
+
+
+
+
+@classroom_router.post("/register_activity_insert_problem", status_code=201)
+async def register_activity_insert_problem(requests: Request,availability: bool, problem_list_name: str, category: str, classroom_id: str,time: datetime.datetime, file: Annotated[UploadFile, File()], response: Response):
+
+    try:
+        input = InputRegisterActivityByInsertUsecaseDto(
+            availability=availability,
+            category=category,
+            classroom_id=classroom_id,
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now(),
+            id=str(uuid4()),
+            problem_comentary="",
+            problem_created_at=datetime.datetime.now(),
+            problem_id=str(uuid4()),
+            problem_list_name=problem_list_name,
+            problem_list_problem=file,
+            problem_updated_at=datetime.datetime.now(),
+            time=time
+            
+        )
+
+  
+        response = http_adapter(request=requests, controller=register_activity_by_insert_composer(), response=response, input=input)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+
+
+
+
 
 import time
 
