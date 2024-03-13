@@ -25,5 +25,9 @@ class ActivityRepositoryInterface(ABC):
         raise NotImplementedError
     
     @abstractmethod
+    def update(self, input):
+        raise NotImplementedError
+    
+    @abstractmethod
     def delete(self, id):
         raise NotImplementedError

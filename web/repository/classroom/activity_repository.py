@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import List
+from src._shared.errors.not_found import NotFoundError
 from src.classroom.domain.entity.activity import Activity
 from src.classroom.domain.repository.activity_repository_interface import ActivityRepositoryInterface
 from web.repository.classroom.activity_models import ActivityModel
@@ -35,7 +36,19 @@ class ActivityRepository(ActivityRepositoryInterface):
 
     @classmethod
     def delete(self, id):
-        raise NotImplementedError
+        try:
+            with DBConnectionHandler() as db:
+                element = db.session.query(ActivityModel).filter_by(id=id).delete()
+                
+                if element == 0:
+                    raise NotFoundError("Element not found")
+                
+                db.session.commit()
+                
+
+        except Exception as error:
+            db.session.rollback()
+            raise error
     
     @classmethod
     def get_by_classroom(self, classroom_id):
@@ -61,6 +74,17 @@ class ActivityRepository(ActivityRepositoryInterface):
             except Exception as error:
                 raise error
 
+    @classmethod
+    def update(self, input):
+          with DBConnectionHandler() as db:
+            try:
+                data = db.session.query(ActivityModel).filter_by(id=input.activity_id).first()
+                data.availability = input.availability
+                data.time = input.time
+                data.category = input.category
+                db.session.commit()
+            except Exception as error:
+                raise error
 
     @classmethod
     def get(self, teacher_id):

@@ -13,6 +13,7 @@ from src.classroom.usecases.register_activity_by_insert_dto import InputRegister
 from src.classroom.usecases.register_activity_usecase_dto import InputRegisterActivityUsecaseDto
 from src.classroom.usecases.register_classroom_usecase_dto import InputRegisterClassroomDto
 from src.classroom.usecases.register_student_usecase_dto import InputRegisterStudentUsecaseDto
+from src.classroom.usecases.update_activity_usecase_dto import InputUpdateActivityUsecaseDto
 from web.adapters.http_adapter import http_adapter
 from web.composers.account.change_password_composer import change_password_composer
 from web.composers.account.check_composer import check_authentication_composer
@@ -20,12 +21,14 @@ from web.composers.account.login_composer import login_composer
 from web.composers.account.logout_composer import logout_composer
 from web.composers.classroom.check_invite_composer import check_invite_composer
 from web.composers.classroom.classroom_composer import classroom_composer
+from web.composers.classroom.delete_activity_composer import delete_activity_composer
 from web.composers.classroom.get_activity_by_classroom_composer import get_activity_by_classroom_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
 from web.composers.classroom.register_acticity_by_insert_composer import register_activity_by_insert_composer
 from web.composers.classroom.register_activity_composer import register_activity_composer
 from web.composers.classroom.register_student_composer import register_student_composer
+from web.composers.classroom.update_activity_composer import update_activity_composer
 from web.session.user_session import cookie
 
 from typing_extensions import Annotated
@@ -178,7 +181,6 @@ async def register_activity_select_problem(requests: Request, input: InputRegist
 
 @classroom_router.post("/register_activity_insert_problem", status_code=201)
 async def register_activity_insert_problem(requests: Request,availability: bool, problem_list_name: str, category: str, classroom_id: str,time: datetime.datetime, file: Annotated[UploadFile, File()], response: Response):
-
     try:
         input = InputRegisterActivityByInsertUsecaseDto(
             availability=availability,
@@ -206,9 +208,40 @@ async def register_activity_insert_problem(requests: Request,availability: bool,
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
 
+class InputUpdateActivityRouter(BaseModel):
+    activity_id: str
+    time: datetime.datetime
+    category: str
+    availability: bool
 
 
+@classroom_router.put("/update_activity", status_code=200)
+async def update_activity(requests: Request, input: InputUpdateActivityRouter):
+    try:
+        input = InputUpdateActivityUsecaseDto(
+            activity_id=input.activity_id,
+            availability=input.availability, 
+            category=input.category,
+            time=input.time,
+        )
 
+        response = http_adapter(request=requests, controller=update_activity_composer(), response=None, input=input)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+    
+
+@classroom_router.delete("/delete_activity/{activity_id}", status_code=200)
+async def update_activity(requests: Request, activity_id: str):
+    try:
+        response = http_adapter(request=requests, controller=delete_activity_composer(), response=None, input=activity_id)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
 import time
 
