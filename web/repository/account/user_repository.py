@@ -1,3 +1,4 @@
+from src._shared.errors.bad_request import BadRequestError
 from src._shared.value_object.email import Email
 from src.account.domain.entity.user import User
 from src.account.domain.repository.user_repository_interface import UserRepositoryInterface
@@ -39,8 +40,10 @@ class UserRepository(UserRepositoryInterface):
     def get_by_email(self, email) -> User:
         with DBConnectionHandler() as db:
             try:
-                user_query = db.session.query(UserModel).filter_by(email=email).first()
 
+                user_query = db.session.query(UserModel).filter_by(email=email).first()
+                if  user_query is None:
+                    raise BadRequestError("Email or password incorrect")
                 user = User(
                     created_at=user_query.created_at,
                     id=user_query.id,
@@ -67,7 +70,9 @@ class UserRepository(UserRepositoryInterface):
     def check_register(self, email: str) -> bool:
         with DBConnectionHandler() as db:
             try:
+
                 user_exists = db.session.query(UserModel).filter_by(email=email).first() is not None
+
                 return user_exists
             
             except Exception as error:

@@ -17,6 +17,7 @@ class InputGetOptionsUsecaseDto(BaseModel):
     pb_index: int
     list_index: str
     type_selected: str
+    problem: str
     sel_rule: int 
     total_or_partial: str = "total"
 

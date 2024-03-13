@@ -1,6 +1,7 @@
 
 
 
+from src._shared.errors.bad_request import BadRequestError
 from web.sdk.mrplato.get_options_dto import InputGetOptionDto, OutputGetOptionDto
 
 
@@ -48,7 +49,8 @@ def get_option(prover_instance: any, data: InputGetOptionDto, problem: str) -> O
 
     
     if not r:
-        return r, msg, None
+        raise BadRequestError(msg)
+        
     else:
         if user_input > 0:
             if rule_type == "EQ":
@@ -67,6 +69,7 @@ def get_option(prover_instance: any, data: InputGetOptionDto, problem: str) -> O
     if not r:
         output = OutputGetOptionDto(
         type_output = "ERROR",
+        prover_instance=pv,
         message = msg,
         lines = [{"content": "", "methods_used_info":"", "type":""}],
     )

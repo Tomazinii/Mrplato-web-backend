@@ -11,15 +11,13 @@ from web.sdk.mrplato.get_options_dto import InputGetOptionDto, OutputGetOptionDt
 
 class GetOptionsUsecase(UsecaseInterface):
 
-    def __init__(self, service: ServiceMrplatoInterface, session: MrplatoSessionInterface, problem_facade: ProblemFacadeInterface):
+    def __init__(self, service: ServiceMrplatoInterface, session: MrplatoSessionInterface):
         self.service = service
         self.session = session
-        self.problem_facade = problem_facade
 
     async def execute(self, input: InputGetOptionsUsecaseDto, response) -> OutputGetOptionsUsecaseDto:
+
         session_data: MrplatoSessionDto = await self.session.verify(input.session_key, response=response)
-        list_problem: OutputGetListProblemDto = self.problem_facade.get_by_id(input=input.list_index)
-        problem = list_problem.list_problem[input.pb_index]
 
         input_get_option = InputGetOptionDto(
             sel_rule=input.sel_rule,
@@ -31,7 +29,8 @@ class GetOptionsUsecase(UsecaseInterface):
 
         prover_instance = pickle.loads(session_data.prover)
 
-        get_option: OutputGetOptionDto = self.service.get_option(prover_instance=prover_instance, data=input_get_option, problem=problem)
+        get_option: OutputGetOptionDto = self.service.get_option(prover_instance=prover_instance, data=input_get_option, problem=input.problem)
+
         serialized_instance = pickle.dumps(get_option.prover_instance)
 
         session_data.prover = serialized_instance

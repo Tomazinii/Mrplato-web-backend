@@ -1,4 +1,3 @@
-from uuid import uuid4
 from pydantic import BaseModel
 from fastapi import APIRouter,Request,HTTPException,Response
 from src._shared.controller.errors.types.handle_http_error import handle_errors
@@ -22,7 +21,7 @@ class InputChangePasswordRouteDto(BaseModel):
     password: str
 
 
-@account_router.post("/logout", status_code=200)
+@account_router.get("/logout", status_code=200)
 async def logout(requests: Request):
     try:
         session_key = None

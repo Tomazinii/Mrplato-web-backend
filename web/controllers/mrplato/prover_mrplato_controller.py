@@ -5,7 +5,6 @@ from src._shared.controller.controller_interface import ControllerInterface
 from src._shared.controller.https.http_request import HttpRequest
 from src._shared.controller.https.http_response import HttpResponse
 from src.mrplato.usecase.prover_usecase import ProverUsecase
-from src.mrplato.usecase.prover_usecase_dto import InputProverUsecaseDto
 
 
 class MrplatoController(ControllerInterface):

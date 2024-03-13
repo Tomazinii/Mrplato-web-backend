@@ -67,3 +67,20 @@ class ProblemRepository(ProblemRepositoryInterface):
     @classmethod
     def update(self, input) -> Problem:
         pass
+
+    @classmethod
+    def get_all(self):
+        try:
+            with DBConnectionHandler() as db:
+                data = db.session.query(ProblemModel).all()
+                if data is None:
+                    raise NotFoundError("Problems not exist")
+                list_problem = [] 
+                for element in data:
+                    list_problem.append({"list_name": element.list_name, "comentary": element.comentary, "id": element.id, "created_at": element.created_at, "updated_at": element.updated_at})
+                    
+                return list_problem
+
+        except Exception as error:
+            db.session.rollback()
+            raise error

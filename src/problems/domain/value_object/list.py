@@ -21,9 +21,6 @@ class ListProblem:
         lines_limit = 150
         array = [line.strip() for line in list.get_file().readlines()]
 
-        print("QWEQWEQWEWQEWQEWQEWQEWEQ", array)
-        print("QWEQWEQWEWQEWQEWQEWQEWEQ", array)
-        print("QWEQWEQWEWQEWQEWQEWQEWEQ", array)
 
 
         if len(array) > lines_limit:
