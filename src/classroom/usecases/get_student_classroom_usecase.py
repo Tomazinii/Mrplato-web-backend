@@ -17,7 +17,10 @@ class GetStudentUsecase(UsecaseInterface):
 
         output = OutputGetStudentDto(
             classroom_id=data.get_classroom_id(),
-            enrollment=data.get_enrollment()
+            enrollment=data.get_enrollment(),
+            name=data.get_name(),
+            email=data.get_email(),
+
         )
 
         return output

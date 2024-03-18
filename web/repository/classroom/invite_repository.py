@@ -63,3 +63,29 @@ class InviteStudentRepository(InviteStudentRepositoryInterface):
         except Exception as error:
             db.session.rollback()
             raise error
+        
+    classmethod
+    def get_by_classroom(self, classroom_id: str):
+        try:
+            with DBConnectionHandler() as db:
+                exist = db.session.query(InviteModel).filter_by(classroom_id=classroom_id).all() 
+                if exist is None:
+                    raise BadRequestError("Error getting invite")
+                
+                all_invites = []
+                for data in exist:
+                    invite = InviteStudent(
+                        classroom_id=data.classroom_id,
+                        id=data.id,
+                        time_expires=data.time_expires,
+                        )
+                    invite.set_to(Email(data.to))
+                    invite.set_active(data.active)
+                    all_invites.append(invite)
+              
+                return all_invites
+            
+            
+        except Exception as error:
+            db.session.rollback()
+            raise error

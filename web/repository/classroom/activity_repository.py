@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import List
 from src._shared.errors.not_found import NotFoundError
 from src.classroom.domain.entity.activity import Activity
+from src.classroom.domain.factory.activity_factory import ActivityFactory
 from src.classroom.domain.repository.activity_repository_interface import ActivityRepositoryInterface
 from web.repository.classroom.activity_models import ActivityModel
 from web.repository.db.config.connection import DBConnectionHandler
@@ -99,5 +100,31 @@ class ActivityRepository(ActivityRepositoryInterface):
         
     
     def get_by_id(self, id):
-        raise NotImplementedError
-    
+        try:
+            with DBConnectionHandler() as db:
+                data = db.session.query(ActivityModel).filter_by(id=id).first()
+
+                if data is None:
+                    raise NotFoundError("Activity not found")
+                
+
+                activity = ActivityFactory.create(
+                    availability=data.availability,
+                    category=data.category,
+                    classroom_id=data.classroom_id,
+                    created_at=data.created_at,
+                    id=data.id,
+                    list_problem=data.list_problem,
+                    problem_id=data.problem_id,
+                    problem_name=data.problem_name,
+                    problem_slug=data.problem_slug,
+                    time=data.time,
+                    updated_at=data.updated_at,
+                )
+
+                return activity
+
+                
+        except Exception as error:
+            db.session.rollback()
+            raise error

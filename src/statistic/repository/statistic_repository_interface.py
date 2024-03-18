@@ -1,0 +1,16 @@
+
+
+from abc import ABC, abstractmethod
+
+from src.statistic.domain.entity.result_activity import ResultActivity
+
+
+class ResultActivityRepositoryInterface(ABC):
+
+    @abstractmethod
+    def create(self, input: ResultActivity):
+        raise NotImplementedError
+    
+    @abstractmethod
+    def verify(self, user_id, activity_id, problem_id):
+        raise NotImplementedError
