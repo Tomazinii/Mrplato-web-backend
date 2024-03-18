@@ -23,6 +23,7 @@ from web.composers.classroom.check_invite_composer import check_invite_composer
 from web.composers.classroom.classroom_composer import classroom_composer
 from web.composers.classroom.delete_activity_composer import delete_activity_composer
 from web.composers.classroom.get_activity_by_classroom_composer import get_activity_by_classroom_composer
+from web.composers.classroom.get_classroom_by_id_composer import get_classroom_by_id_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.get_invite_by_classroom_composer import get_invite_by_classroom_composer
 from web.composers.classroom.invite_composer import invite_composer
@@ -258,6 +259,18 @@ async def register_activity_select_problem(requests: Request, classroom_id: str,
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
+
+@classroom_router.get("/get_classroom_by_id/{classroom_id}", status_code=200)
+async def get_classroom_by_id(requests: Request, classroom_id: str, response: Response):
+    try:
+        response = http_adapter(request=requests, controller=get_classroom_by_id_composer(), response=response, input=classroom_id)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+
 
 
 

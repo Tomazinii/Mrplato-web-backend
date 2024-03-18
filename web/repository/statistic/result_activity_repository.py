@@ -10,7 +10,9 @@ class ResultActivityRepository(ResultActivityRepositoryInterface):
     @classmethod
     def create(self, input: ResultActivity) -> any:
         with DBConnectionHandler() as db:
-
+            print("AQUIII", input.get_mrplato_metrics().get_time())
+            print("AQUIII", input.get_mrplato_metrics().get_time())
+            print("AQUIII", type(input.get_mrplato_metrics().get_time()))
             try:
                 result_model = ResultActivityModel(
                     id = input.get_id(),

@@ -28,7 +28,7 @@ def upgrade() -> None:
         sa.Column('student_id', sa.String(), nullable=False),
         sa.Column('student_enrollment', sa.String(), nullable=False),
         sa.Column('student_email', sa.String(), nullable=False),
-        sa.Column('time_mrplato', sa.DateTime(), nullable=False),
+        sa.Column('time_mrplato', sa.Interval(), nullable=False),
         sa.Column('num_attempts', sa.Integer(), nullable=False),
         sa.Column('num_backs', sa.Integer(), nullable=False),
         sa.Column('num_errors', sa.Integer(), nullable=False),

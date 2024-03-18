@@ -1,5 +1,5 @@
 from web.repository.db.config.base import Base
-from sqlalchemy import Column, String, DateTime,ARRAY, Integer
+from sqlalchemy import Column, String, DateTime,ARRAY, Integer, Interval
 
 class ResultActivityModel(Base):
     __tablename__ = 'result_activity_model'
@@ -11,7 +11,7 @@ class ResultActivityModel(Base):
     student_name = Column(String, nullable=False)
     student_enrollment= Column(String, nullable=False)
     student_email= Column(String, nullable=False)
-    time_mrplato = Column(DateTime, nullable=False)
+    time_mrplato = Column(Interval, nullable=False)
     num_attempts= Column(Integer, nullable=False)
     num_backs= Column(Integer, nullable=False)
     num_errors= Column(Integer, nullable=False)

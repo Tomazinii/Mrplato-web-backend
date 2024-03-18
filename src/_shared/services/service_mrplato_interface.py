@@ -18,3 +18,8 @@ class ServiceMrplatoInterface(ABC):
     @abstractmethod
     def get_option(self,prover_instance, data, problem) -> any:
         raise NotImplementedError
+
+    
+    @abstractmethod
+    def get_solution_service(self, prover_instance):
+        raise NotImplementedError

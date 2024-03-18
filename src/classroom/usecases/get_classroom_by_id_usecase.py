@@ -12,13 +12,12 @@ class GetClassroomByIdUsecase(UsecaseInterface):
         self.repository = repository
 
     def execute(self, classroom_id:str) -> OutputGetClassroomByIdDto:
-        
-        result: Classroom = self.repository.get_by_id(id=classroom_id)
+        result = self.repository.get_by_id(id=classroom_id)
 
         output = OutputGetClassroomByIdDto(
-            class_name = result.get_name_class(),
-            id=result.get_id(),
-            teacher_email = result.get_teacher().get_email()
+            class_name = result.class_name,
+            id=result.id,
+            teacher_email = result.teacher_email
         )
 
         return output

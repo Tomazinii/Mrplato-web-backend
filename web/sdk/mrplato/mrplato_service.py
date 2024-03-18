@@ -6,10 +6,11 @@ from web.sdk.mrplato.prover_dto import InputProverDto, OutputProverDto
 
 class ServiceMrplato(ServiceMrplatoInterface):
 
-    def __init__(self, prover, get_option_method, get_current_status_prover_method):
+    def __init__(self, prover, get_option_method, get_current_status_prover_method, get_solution_service_method = None):
         self.prover = prover
         self.get_option_method = get_option_method
         self.get_current_status_prover_method = get_current_status_prover_method
+        self.get_solution_service_method = get_solution_service_method
 
     def prover(self, prover_instance, data: InputProverDto, problem: str) -> OutputProverDto:
         return self.prover(data=data, problem=problem, prover_instance=prover_instance)
@@ -19,3 +20,6 @@ class ServiceMrplato(ServiceMrplatoInterface):
     
     def get_current_status_prover(self, prover_instance, problem):
         return self.get_current_status_prover_method(problem=problem, prover_instance=prover_instance)
+    
+    def get_solution_service(self, prover_instance):
+        return self.get_solution_service_method(prover_instance)

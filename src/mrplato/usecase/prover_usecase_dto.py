@@ -16,6 +16,7 @@ class Rows(BaseModel):
 
 
 class InputProverUsecaseDto(BaseModel):
+    user_status: bool
     session_key: Any
     selected_proof_line_indexes: List[int] # this is the index of the selected rows
     pb_index: int

@@ -44,18 +44,18 @@ class ClassroomRepository(ClassroomRepositoryInterface):
         try:
             with DBConnectionHandler() as db:
                 data = db.session.query(ClassroomModel).filter_by(id=id).first()
-
                 if data is None:
                     raise NotFoundError("Classroom not found")
                 
                 classroom = ClassroomDto(
-                            class_name=classroom.class_name,
-                            teacher_name=classroom.teacher_name,
-                            created_at=classroom.created_at,
-                            id=classroom.id,
-                            teacher_email=classroom.teacher_email,
+                            class_name=data.class_name,
+                            teacher_name=data.teacher_name,
+                            created_at=data.created_at,
+                            id=data.id,
+                            teacher_email=data.teacher_email,
 
                             )
+                
                 return classroom
 
                 

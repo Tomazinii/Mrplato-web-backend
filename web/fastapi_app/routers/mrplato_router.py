@@ -27,6 +27,7 @@ class InputProverRoute(BaseModel):
     classroom_id:str
     problem: str
     user_id: str
+    user_status: bool
 
 
 
@@ -43,6 +44,7 @@ class InputGetOptionRoute(BaseModel):
 
 @mrplato_router.post("/prover", status_code=201)
 async def prover(requests: Request, input: InputProverRoute, response: Response):
+
     try:
         session_key = None
         if requests.cookies.get("mrplato_cookie"):
@@ -56,6 +58,7 @@ async def prover(requests: Request, input: InputProverRoute, response: Response)
             selected_proof_line_indexes=input.selected_proof_line_indexes,
             selection=input.selection,
             session_key=session_key,
+            user_status=input.user_status,
             total_or_partial=input.total_or_partial,
             type_selected=input.type_selected,
             activity_id=input.activity_id,

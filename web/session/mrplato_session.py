@@ -76,7 +76,8 @@ class MrplatoSession(MrplatoSessionInterface):
         dataSession = MrplatoSessionDto(
             id=session_key,
             prover=serialized_instance,
-            time_session = datetime.datetime.now() + datetime.timedelta(weeks=1)
+            time_session = datetime.datetime.now() + datetime.timedelta(weeks=1),
+            timer = datetime.datetime.now(),
         )
 
         await backend.create(session_key, dataSession)
