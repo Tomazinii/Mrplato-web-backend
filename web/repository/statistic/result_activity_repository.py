@@ -15,6 +15,7 @@ class ResultActivityRepository(ResultActivityRepositoryInterface):
             try:
                 result_model = ResultActivityModel(
                     id = input.get_id(),
+                    activity_category= input.get_activity().get_category(),
                     student_id = input.get_student().get_id(),
                     classroom_id = input.get_classroom_id(),
                     activity_id = input.get_activity().get_id(),

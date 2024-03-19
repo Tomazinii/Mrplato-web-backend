@@ -28,10 +28,11 @@ class RegisterResultActivityUsecase(UsecaseInterface):
         if verify:
 
             activity: OutputGetActivityByIdDto = self.activity_facade.get_activity_by_id_method(input=input.activity_id)
-
+    
             result_activity = ResultActivity(id=input.id)
             
             activity_data = ActivityData(
+                category=activity.category,
                 classroom_id=activity.classroom_id,
                 id=activity.id,
                 problem=activity.problem[input.problem_id],

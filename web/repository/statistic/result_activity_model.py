@@ -6,6 +6,7 @@ class ResultActivityModel(Base):
 
     id = Column(String, primary_key=True)
     classroom_id = Column(String, nullable=False)
+    activity_category = Column(String, nullable=False)
     activity_id = Column(String, nullable=False)
     student_id= Column(String, nullable=False)
     student_name = Column(String, nullable=False)

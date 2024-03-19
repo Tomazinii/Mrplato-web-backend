@@ -11,15 +11,20 @@ class ActivityData:
     __solution: List
     __classroom_id: str
     __time: datetime.datetime
+    __category: str
 
-    def __init__(self, id, problem_id, solution, problem, classroom_id, time):
+    def __init__(self, id, problem_id, solution, problem, classroom_id, time, category):
         self.__problem = problem
         self.__problem_id = problem_id
         self.__solution = solution
         self.__id = id
         self.__classroom_id = classroom_id
         self.__time = time
+        self.__category = category
 
+    def get_category(self):
+        return self.__category
+    
     def get_time(self):
         return self.__time
     
