@@ -14,3 +14,7 @@ class ResultActivityRepositoryInterface(ABC):
     @abstractmethod
     def verify(self, user_id, activity_id, problem_id):
         raise NotImplementedError
+    
+    @abstractmethod
+    def get_by_classroom(self, classroom_id):
+        raise NotImplementedError

@@ -1,4 +1,5 @@
 
+from src._shared.errors.bad_request import BadRequestError
 from src.statistic.domain.entity.result_activity import ResultActivity
 from src.statistic.repository.statistic_repository_interface import ResultActivityRepositoryInterface
 from web.repository.db.config.connection import DBConnectionHandler
@@ -10,9 +11,7 @@ class ResultActivityRepository(ResultActivityRepositoryInterface):
     @classmethod
     def create(self, input: ResultActivity) -> any:
         with DBConnectionHandler() as db:
-            print("AQUIII", input.get_mrplato_metrics().get_time())
-            print("AQUIII", input.get_mrplato_metrics().get_time())
-            print("AQUIII", type(input.get_mrplato_metrics().get_time()))
+
             try:
                 result_model = ResultActivityModel(
                     id = input.get_id(),
@@ -47,3 +46,18 @@ class ResultActivityRepository(ResultActivityRepositoryInterface):
         with DBConnectionHandler() as db:
             verify = db.session.query(ResultActivityModel).filter_by(student_id=user_id, activity_id=activity_id, problem_id=problem_id).first() is None
             return verify
+        
+
+    @classmethod
+    def get_by_classroom(self, classroom_id):
+        try:
+            with DBConnectionHandler() as db:
+                element = db.session.query(ResultActivityModel).filter_by(classroom_id=classroom_id).all()
+                if element is None:
+                    raise BadRequestError("Could not find activity")
+           
+                return element
+
+        except Exception as error:
+            db.session.rollback()
+            raise error

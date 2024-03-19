@@ -65,6 +65,35 @@ class StudentRepository(StudentRepositoryInterface):
         pass
 
     @classmethod
+    def get_all_by_classroom(self, classroom_id):
+        try:
+            with DBConnectionHandler() as db:
+                    elements = db.session.query(StudentModel).filter_by(classroom_id=classroom_id).all()
+
+                    if elements is None:
+                        raise NotFoundError("Student not found")
+
+                    student_list = []
+                    for element in elements:
+                        student = Student(
+                            created_at=element.created_at,
+                            enrollment=element.enrollment,
+                            id=element.id,
+                            name=element.username,
+                            updated_at=element.updated_at,
+                        )
+                        student.set_classroom_id(element.classroom_id)
+                        email = Email(element.email)
+                        student.set_email(email=email)
+                        student_list.append(student)
+                    
+                    return student_list
+
+        except Exception as error:
+            db.session.rollback()
+            raise error
+    
+    @classmethod
     def verify_create(self, input: Student):
         with DBConnectionHandler() as db:
             try:

@@ -4,6 +4,7 @@ import datetime
 from typing import List
 from uuid import uuid4
 from pydantic import BaseModel
+from starlette.responses import FileResponse
 from fastapi import APIRouter,Request,HTTPException,Response
 from src._shared.controller.errors.types.handle_http_error import handle_errors
 from src.classroom.facade.classroom_facade import ClassroomFacade
@@ -15,14 +16,17 @@ from src.classroom.usecases.register_activity_usecase_dto import InputRegisterAc
 from src.classroom.usecases.register_classroom_usecase_dto import InputRegisterClassroomDto
 from src.classroom.usecases.register_student_usecase_dto import InputRegisterStudentUsecaseDto
 from src.classroom.usecases.update_activity_usecase_dto import InputUpdateActivityUsecaseDto
+from src.statistic.usecase.create_report_usecase import CreateReportUsecase
 from src.statistic.usecase.register_result_activity_usecase import RegisterResultActivityUsecase
 from src.statistic.usecase.register_result_activity_usecase_dto import InputRegisterResultActivityUsecaseDto
 from web.adapters.http_adapter import http_adapter
 
 from web.composers.classroom.check_invite_composer import check_invite_composer
 from web.composers.classroom.classroom_composer import classroom_composer
+from web.composers.classroom.create_report_composer import create_report_composer
 from web.composers.classroom.delete_activity_composer import delete_activity_composer
 from web.composers.classroom.get_activity_by_classroom_composer import get_activity_by_classroom_composer
+from web.composers.classroom.get_all_students_composer import get_all_students_composer
 from web.composers.classroom.get_classroom_by_id_composer import get_classroom_by_id_composer
 from web.composers.classroom.get_classroom_composer import get_classroom_composer
 from web.composers.classroom.get_invite_by_classroom_composer import get_invite_by_classroom_composer
@@ -270,6 +274,17 @@ async def get_classroom_by_id(requests: Request, classroom_id: str, response: Re
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+    
+
+@classroom_router.get("/get_all_students/{classroom_id}", status_code=200)
+async def get_all_students(requests: Request, classroom_id: str, response: Response):
+    try:
+        response = http_adapter(request=requests, controller=get_all_students_composer(), response=response, input=classroom_id)
+        return response
+    
+    except Exception as error:
+        http_response  = handle_errors(error)
+        raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
 
 
@@ -287,21 +302,17 @@ async def get_invites(requests: Request, classroom_id: str, response: Response):
 
 
 
-
-
-@classroom_router.post("/result_acitivy/", status_code=200)
-async def test_result(requests: Request, input: InputRegisterResultActivityUsecaseDto, response: Response):
+@classroom_router.get("/create_report/{classroom_id}", status_code=200)
+async def test_result(requests: Request, classroom_id: str, response: Response):
     try:
-
-        repository = ResultActivityRepository()
-        activity_repository = ActivityRepository()
-        activity_facade = ClassroomFacade(get_activity_by_id=GetActivityByIdUsecase(repository=activity_repository))
-        student_facade = ClassroomFacade(get_student=GetStudentUsecase(repository=StudentRepository()))
-        usecase = RegisterResultActivityUsecase(repository=repository, activity_facade=activity_facade, student_facade=student_facade,)
-
-        result = usecase.execute(input=input)
-        return result
+        response = http_adapter(request=requests, controller=create_report_composer(), response=response, input=classroom_id)
+        return FileResponse(response.body["data"], media_type='text/csv', filename='report.csv')
     
     except Exception as error:
         http_response  = handle_errors(error)
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
+    
+    
+
+
+
