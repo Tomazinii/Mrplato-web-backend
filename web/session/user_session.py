@@ -1,18 +1,28 @@
 import datetime
 import pickle
-from typing import Any
+from typing import Any, Optional
+
+from pydantic import BaseModel
 from fastapi import HTTPException
 from uuid import UUID, uuid4
 
 from fastapi_sessions.backends.implementations import InMemoryBackend
 from fastapi_sessions.session_verifier import SessionVerifier
-from fastapi_sessions.frontends.implementations import SessionCookie, CookieParameters
+from fastapi_sessions.frontends.implementations import SessionCookie
 from src._shared.session.user_session_dto import UserSessionDto
 from src._shared.session.user_session_interface import UserSessionInterface
 
 
+class CookieParameters(BaseModel):
+    max_age: int = 14 * 24 * 60 * 60  # 14 days in seconds
+    path: str = "/"
+    domain: Optional[str] = None
+    secure: bool = False
+    httponly: bool = True
+    samesite: Any
 
-cookie_params = CookieParameters()
+cookie_params = CookieParameters(samesite="None", secure=True)
+
 
 cookie = SessionCookie(
     cookie_name="user_cookie",

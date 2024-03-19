@@ -38,7 +38,6 @@ async def logout(requests: Request):
 
 @account_router.post("/login", status_code=200)
 async def login(requests: Request, input: InputLoginRoute, response: Response):
-
     try:
         input = InputLoginUsecase(
             email=input.email,
@@ -76,6 +75,8 @@ async def change_password(requests: Request, input: InputChangePasswordRouteDto,
 
 @account_router.get("/verify", status_code=200)
 async def verify(requests: Request):
+
+
     try:
 
         session_key = None

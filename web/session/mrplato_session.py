@@ -1,6 +1,8 @@
 import datetime
 import pickle
-from typing import Any
+from typing import Any, Optional
+
+from pydantic import BaseModel
 from fastapi import HTTPException
 from uuid import UUID, uuid4
 
@@ -12,8 +14,15 @@ from src._shared.session.mrplato_session_interface import MrplatoSessionInterfac
 from web.sdk.mrplato.resources import tools_file as tools
 
 
+class CookieParameters(BaseModel):
+    max_age: int = 14 * 24 * 60 * 60  # 14 days in seconds
+    path: str = "/"
+    domain: Optional[str] = None
+    secure: bool = False
+    httponly: bool = True
+    samesite: Any
 
-cookie_params = CookieParameters()
+cookie_params = CookieParameters(samesite="None", secure=True)
 
 cookie = SessionCookie(
     cookie_name="mrplato_cookie",
