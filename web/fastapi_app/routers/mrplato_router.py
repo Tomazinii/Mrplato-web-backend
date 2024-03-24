@@ -10,6 +10,7 @@ from web.composers.mrplato.check_status_mrplato_composer import check_status_mrp
 from web.composers.mrplato.get_options_composer import get_options_composer
 from web.composers.mrplato.prover_mrplato_composer import mrplato_composer
 from web.composers.mrplato.restart_status_mrplato_composer import retart_status_mrplato_composer
+from web.middlewares.authentication import authentication_middleware
 from web.session.mrplato_session import cookie
 
 mrplato_router = APIRouter()
@@ -46,6 +47,7 @@ class InputGetOptionRoute(BaseModel):
 async def prover(requests: Request, input: InputProverRoute, response: Response):
 
     try:
+        await authentication_middleware(requests=requests)
         session_key = None
         if requests.cookies.get("mrplato_cookie"):
             session_key = cookie(requests)
@@ -85,6 +87,7 @@ class InputCheckStatusMrplatoRouter(BaseModel):
 @mrplato_router.post("/check_status_mrplato", status_code=201)
 async def check_status_mrplato(requests: Request, input: InputCheckStatusMrplatoRouter, response: Response):
     try:
+        await authentication_middleware(requests=requests)
         session_key = None
         if requests.cookies.get("mrplato_cookie"):
             session_key = cookie(requests)
@@ -108,6 +111,7 @@ async def check_status_mrplato(requests: Request, input: InputCheckStatusMrplato
 @mrplato_router.get("/restart_status_mrplato", status_code=200)
 async def restart_status_mrplato(requests: Request, response: Response):
     try:
+        await authentication_middleware(requests=requests)
         session_key = None
         if requests.cookies.get("mrplato_cookie"):
             session_key = cookie(requests)
@@ -127,6 +131,7 @@ async def restart_status_mrplato(requests: Request, response: Response):
 @mrplato_router.post("/get_options", status_code=200)
 async def get_options(requests: Request, input: InputGetOptionRoute, response: Response):
     try:
+        await authentication_middleware(requests=requests)
         session_key = None
         if requests.cookies.get("mrplato_cookie"):
             session_key = cookie(requests)

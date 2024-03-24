@@ -8,6 +8,8 @@ from web.composers.account.change_password_composer import change_password_compo
 from web.composers.account.check_composer import check_authentication_composer
 from web.composers.account.login_composer import login_composer
 from web.composers.account.logout_composer import logout_composer
+from web.middlewares.authentication import authentication_middleware
+from web.middlewares.authorization import authorization_middleware
 from web.session.user_session import cookie
 
 account_router = APIRouter()
@@ -57,6 +59,8 @@ async def login(requests: Request, input: InputLoginRoute, response: Response):
 async def change_password(requests: Request, input: InputChangePasswordRouteDto, response: Response):
 
     try:
+        await authentication_middleware(requests=requests)
+
         session_key = None
         if requests.cookies.get("user_cookie"):
             session_key = cookie(requests)
@@ -73,12 +77,11 @@ async def change_password(requests: Request, input: InputChangePasswordRouteDto,
         raise HTTPException(status_code=http_response.status_code, detail=f"{http_response.body}")
 
 
+
 @account_router.get("/verify", status_code=200)
 async def verify(requests: Request):
-
-
+    
     try:
-
         session_key = None
         if requests.cookies.get("user_cookie"):
             session_key = cookie(requests)
